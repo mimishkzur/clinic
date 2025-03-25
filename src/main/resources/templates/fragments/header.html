@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Поликлиника "Здоровье"</title>
+    <link rel="stylesheet" th:href="@{/styles/style.css}">
+</head>
+<body>
+<header>
+    <nav>
+        <a th:href="@{/}">Главная</a>
+        <a th:href="@{/about}">О нас</a>
+
+        <!-- Кнопки для авторизованных пользователей -->
+        <a th:href="@{/profile}">Мой профиль</a>
+        <a th:href="@{/appointments}">Запись к врачу</a>
+        <a th:href="@{/logout}">Выйти</a>
+
+        <!-- Кнопки для гостей -->
+        <a th:href="@{/login}">Войти</a>
+        <a th:href="@{/register}">Регистрация</a>
+    </nav>
+</header>
+</body>
+</html>
