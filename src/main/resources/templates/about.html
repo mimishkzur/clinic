@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>О нас | Поликлиника "Здоровье"</title>
+    <link rel="stylesheet" th:href="@{/styles/style.css}">
+</head>
+<body>
+<!-- Вставляем шапку (как в home.html) -->
+<div th:insert="~{fragments/header :: header}"></div>
+
+<main>
+    <h1>О нашей поликлинике</h1>
+
+    <!-- Добавляем нужную информацию -->
+    <section>
+        <h2>Наша история</h2>
+        <p>Поликлиника "Здоровье" работает с 1995 года, предоставляя качественные медицинские услуги.</p>
+    </section>
+
+    <section>
+        <h2>Наши врачи</h2>
+        <p>У нас работают высококвалифицированные специалисты с многолетним опытом.</p>
+    </section>
+
+    <section>
+        <h2>Контакты</h2>
+        <p>Адрес: г. Москва, ул. Медицинская, 15</p>
+        <p>Телефон: +7 (495) 123-45-67</p>
+        <p>Email: info@zdorovie-clinic.ru</p>
+    </section>
+</main>
+</body>
+</html>
