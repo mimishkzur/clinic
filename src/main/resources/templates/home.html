@@ -23,6 +23,29 @@
         </ul>
     </section>
 
+    <section>
+        <h2>Наши врачи</h2>
+        <table>
+            <thead>
+            <tr>
+                <th>Имя</th>
+                <th>Специализация</th>
+                <th>Email</th>
+                <th>Телефон</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="doctor : ${doctors}">
+                <td th:text="${doctor.fullName}"></td>
+                <td th:text="${doctor.specialization}"></td>
+                <td th:text="${doctor.email}"></td>
+                <td th:text="${doctor.phone}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </section>
+
+
     <a th:href="@{/register}" class="button">Зарегистрироваться</a>
 </main>
 </body>
