@@ -2,6 +2,7 @@ package com.example.clinic.controller;
 
 import com.example.clinic.model.Doctor;
 import com.example.clinic.repository.DoctorRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;

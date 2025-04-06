@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Мои приёмы</title>
+</head>
+<body>
+<h1>История приёмов</h1>
+<table border="1">
+    <tr>
+        <th>Врач</th>
+        <th>Дата</th>
+        <th>Диагноз</th>
+        <th>Назначения</th>
+        <th>Статус</th>
+    </tr>
+    <tr th:each="appointment : ${appointments}">
+        <td th:text="${appointment.doctor.fullName}"></td>
+        <td th:text="${appointment.dateTime}"></td>
+        <td th:text="${appointment.diagnosis}"></td>
+        <td th:text="${appointment.treatment}"></td>
+        <td th:text="${appointment.status}"></td>
+    </tr>
+</table>
+</body>
+</html>
