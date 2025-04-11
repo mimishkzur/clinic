@@ -8,7 +8,7 @@
 </head>
 <body>
 <!-- Вставляем шапку -->
-<div th:insert="~{fragments/header :: header}"></div>
+<div th:insert="~{fragments/header_user :: header}"></div>
 
 <main>
     <h1>Добро пожаловать в поликлинику "Здоровье"</h1>
@@ -45,31 +45,6 @@
         </table>
     </section>
 
-
-    <a th:href="@{/register}" class="button">Зарегистрироваться</a>
 </main>
 </body>
 </html>
-
-<!-- home.html -->
-<!--<!DOCTYPE html>-->
-<!--<html xmlns:th="http://www.thymeleaf.org"-->
-<!--      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">-->
-<!--<head>-->
-<!--    <meta charset="UTF-8">-->
-<!--    <title>Главная | Поликлиника "Здоровье"</title>-->
-<!--    <link rel="stylesheet" th:href="@{/styles/style.css}">-->
-<!--</head>-->
-<!--<body>-->
-
-<!--&lt;!&ndash; Вставка нужного фрагмента &ndash;&gt;-->
-<!--<div sec:authorize="isAuthenticated()" th:insert="~{fragments/header_user :: header}"></div>-->
-<!--<div sec:authorize="!isAuthenticated()" th:insert="~{fragments/header_guest :: header}"></div>-->
-
-<!--<main>-->
-<!--    <h1>Добро пожаловать в поликлинику "Здоровье"</h1>-->
-<!--    <p>Мы предлагаем качественное медицинское обслуживание для всей семьи.</p>-->
-<!--</main>-->
-
-<!--</body>-->
-<!--</html>-->

@@ -13,10 +13,8 @@ import lombok.NoArgsConstructor;
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
     private String email;
+
     private String phone;
     private String omsPolicyNumber;
     private String password;
@@ -26,3 +24,4 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Role role;
 }
+

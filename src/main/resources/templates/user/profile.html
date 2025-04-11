@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Ваш профиль</title>
+</head>
+<body>
+<div th:insert="~{fragments/header_user :: header}"></div>
+
+<h2>Профиль пользователя</h2>
+
+<div>
+    <p><strong>Имя:</strong> <span th:text="${user.fullName}"></span></p>
+    <p><strong>Телефон:</strong> <span th:text="${user.phone}"></span></p>
+    <p><strong>Полис ОМС:</strong> <span th:text="${user.omsPolicyNumber}"></span></p>
+
+    <!-- Список встреч -->
+    <h3>История посещений:</h3>
+    <table>
+        <thead>
+        <tr>
+            <th>Дата</th>
+            <th>Доктор</th>
+            <th>Диагноз</th>
+            <th>Лечение</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="appointment : ${appointments}">
+            <td th:text="${appointment.dateTime}"></td>
+            <td th:text="${appointment.doctor.fullName}"></td>
+            <td th:text="${appointment.diagnosis}"></td>
+            <td th:text="${appointment.treatment}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

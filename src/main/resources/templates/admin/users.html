@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Управление пользователями</title>
+    <link rel="stylesheet" th:href="@{/styles/style.css}">
+</head>
+<body>
+<!--<header th:replace="~{fragments/header :: header}"></header>-->
+<div th:insert="~{fragments/header_guest :: header}"></div>
+
+<main>
+    <h1>Список пользователей</h1>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Email</th>
+            <th>Имя</th>
+            <th>Телефон</th>
+            <th>Роль</th>
+            <th>Изменить роль</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="user : ${users}">
+            <td th:text="${user.email}"></td>
+            <td th:text="${user.fullName}"></td>
+            <td th:text="${user.phone}"></td>
+            <td th:text="${user.role}"></td>
+            <td>
+                <form th:action="@{/admin/users/changeRole}" method="post">
+                    <input type="hidden" name="email" th:value="${user.email}"/>
+                    <select name="role">
+                        <option th:selected="${user.role == 'PATIENT'}" value="PATIENT">Пациент</option>
+                        <option th:selected="${user.role == 'DOCTOR'}" value="DOCTOR">Врач</option>
+                        <option th:selected="${user.role == 'ADMIN'}" value="ADMIN">Администратор</option>
+                    </select>
+                    <button type="submit">Сохранить</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</main>
+</body>
+</html>

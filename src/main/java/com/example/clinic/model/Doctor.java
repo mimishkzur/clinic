@@ -15,11 +15,13 @@ import java.time.LocalDate;
 public class Doctor {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String email;
+
+    @OneToOne
+    @JoinColumn(name = "email", referencedColumnName = "email", insertable = false, updatable = false)
+    private User user;
 
     private String fullName;
-    private String email;
     private String phone;
     private String specialization;
 

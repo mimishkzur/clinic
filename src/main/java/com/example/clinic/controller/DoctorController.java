@@ -7,6 +7,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
+
 @Controller
 @RequestMapping("/doctors")
 public class DoctorController {
@@ -37,5 +39,19 @@ public class DoctorController {
         return "redirect:/doctors";
     }
 
-//    @PostMapping("/")
+//    @GetMapping("/profile")
+//    public String showDoctorProfileForm(Model model, Principal principal) {
+//        String email = principal.getName();
+//        Doctor doctor = doctorRepository.findByEmail(email).orElse(new Doctor());
+//        doctor.setEmail(email); // если новый
+//        model.addAttribute("doctor", doctor);
+//        return "doctor/profile-form";
+//    }
+
+//    @PostMapping("/profile")
+//    public String saveDoctorProfile(@ModelAttribute Doctor doctor, Principal principal) {
+//        doctor.setEmail(principal.getName()); // гарантируем, что сохраняется текущий email
+//        doctorRepository.save(doctor);
+//        return "redirect:/"; // или на дашборд
+//    }
 }

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title>Поликлиника "Здоровье"</title>
@@ -11,14 +12,18 @@
         <a th:href="@{/}">Главная</a>
         <a th:href="@{/about}">О нас</a>
 
-        <!-- Кнопки для авторизованных пользователей -->
-<!--        <a th:href="@{/profile}">Мой профиль</a>-->
-<!--        <a th:href="@{/appointments}">Запись к врачу</a>-->
-<!--        <a th:href="@{/logout}">Выйти</a>-->
+        <!-- Кнопки для НЕавторизованных -->
+        <div sec:authorize="!isAuthenticated()">
+            <a th:href="@{/login}">Войти</a>
+            <a th:href="@{/register}">Регистрация</a>
+        </div>
 
-        <!-- Кнопки для гостей -->
-        <a th:href="@{/login}">Войти</a>
-        <a th:href="@{/register}">Регистрация</a>
+        <!-- Кнопки для авторизованных -->
+        <div sec:authorize="isAuthenticated()">
+            <a th:href="@{/profile}">Ваш профиль</a>
+            <a th:href="@{/appointments}">Запись ко врачу</a>
+            <a th:href="@{/logout}">Выйти</a>
+        </div>
     </nav>
 </header>
 </body>

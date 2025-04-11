@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+<div th:fragment="header">
+    <nav>
+        <a th:href="@{/}">Главная</a>
+        <a th:href="@{/about}">О нас</a>
+        <a th:href="@{/profile}">Ваш профиль</a>
+        <a th:href="@{/appointments}">Запись ко врачу</a>
+        <a th:href="@{/logout}">Выйти</a>
+    </nav>
+</div>
+</body>
+</html>

@@ -19,10 +19,10 @@ public class Appointment {
     private Long id;
 
     @ManyToOne
-    private User patient;
+    private User user;
 
-    @ManyToOne
-    private Doctor doctor;
+//    @ManyToOne
+//    private Doctor doctor;
 
     private LocalDateTime dateTime;
 
@@ -30,6 +30,6 @@ public class Appointment {
     private String Treatment;
     private String notes;
 
-    @Enumerated(EnumType.STRING)
-    private AppointmentStatus status;
+//    @Enumerated(EnumType.STRING)
+//    private AppointmentStatus status;
 }
