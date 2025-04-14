@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Кабинет врача</title>
+    <link rel="stylesheet" th:href="@{/styles/style.css}">
+</head>
+<body>
+<header>
+    <h1>Кабинет врача</h1>
+</header>
+
+<nav>
+    <a th:href="@{/doctor/profile}">Ваш профиль</a> |
+    <a th:href="@{/doctor/appointments}">Приёмы</a> |
+    <a th:href="@{/logout}">Выйти</a>
+</nav>
+
+<main>
+    <p>Добро пожаловать в систему, доктор!</p>
+</main>
+</body>
+</html>

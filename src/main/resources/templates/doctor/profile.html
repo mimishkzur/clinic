@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Профиль врача</title>
+</head>
+<body>
+<h2>Редактирование профиля</h2>
+
+<form th:action="@{/doctor/profile}" th:object="${doctor}" method="post">
+    <p>Email: <span th:text="*{user.email}"></span></p>
+    <p>ФИО: <span th:text="*{user.fullName}"></span></p>
+    <p>Телефон: <span th:text="*{user.phone}"></span></p>
+    <p>Специализация: <span th:text="*{specialization}"></span></p>
+    <p>Зарплата: <span th:text="*{salary}"></span></p>
+
+    <label>Дата рождения: <input type="date" th:field="*{birthDate}"/></label><br>
+    <label>Образование: <input type="text" th:field="*{education}"/></label><br>
+    <label>Опыт (лет): <input type="number" th:field="*{experience}"/></label><br>
+    <label>О себе: <textarea th:field="*{description}"></textarea></label><br>
+
+    <button type="submit">Сохранить</button>
+</form>
+
+<a th:href="@{/doctor/dashboard}">Назад</a>
+</body>
+</html>

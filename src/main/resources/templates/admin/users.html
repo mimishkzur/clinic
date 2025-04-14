@@ -29,12 +29,11 @@
             <td th:text="${user.phone}"></td>
             <td th:text="${user.role}"></td>
             <td>
-                <form th:action="@{/admin/users/changeRole}" method="post">
-                    <input type="hidden" name="email" th:value="${user.email}"/>
+                <form th:action="@{'/admin/users/' + ${user.email} + '/role'}" method="post">
                     <select name="role">
-                        <option th:selected="${user.role == 'PATIENT'}" value="PATIENT">Пациент</option>
-                        <option th:selected="${user.role == 'DOCTOR'}" value="DOCTOR">Врач</option>
-                        <option th:selected="${user.role == 'ADMIN'}" value="ADMIN">Администратор</option>
+                        <option value="PATIENT" th:selected="${user.role == 'PATIENT'}">Пациент</option>
+                        <option value="DOCTOR" th:selected="${user.role == 'DOCTOR'}">Врач</option>
+                        <option value="ADMIN" th:selected="${user.role == 'ADMIN'}">Администратор</option>
                     </select>
                     <button type="submit">Сохранить</button>
                 </form>
