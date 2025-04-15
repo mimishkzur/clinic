@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Добавить прием</title>
+</head>
+<body>
+<h1>Добавление приема для врача</h1>
+
+<form th:action="@{/admin/appointments}" method="post" th:object="${appointment}">
+    <label>Врач:
+        <select name="doctorEmail">
+            <option th:each="doc : ${doctors}" th:value="${doc.email}" th:text="${doc.fullName + ' (' + doc.specialization + ')'}"></option>
+        </select>
+    </label><br>
+
+    <label>Дата и время:
+        <input type="datetime-local" th:field="*{dateTime}" />
+    </label><br>
+
+    <button type="submit">Добавить</button>
+</form>
+
+<h2>Вернуться</h2>
+<a th:href="@{/admin/users}">Назад к списку пользователей</a>
+</body>
+</html>

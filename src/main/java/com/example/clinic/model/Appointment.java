@@ -21,15 +21,15 @@ public class Appointment {
     @ManyToOne
     private User user;
 
-//    @ManyToOne
-//    private Doctor doctor;
+    @ManyToOne
+    private Doctor doctor;
 
     private LocalDateTime dateTime;
 
     private String diagnosis;
-    private String Treatment;
+    private String treatment;
     private String notes;
 
-//    @Enumerated(EnumType.STRING)
-//    private AppointmentStatus status;
+    @Enumerated(EnumType.STRING)
+    private AppointmentStatus status;
 }

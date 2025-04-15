@@ -1,8 +1,7 @@
 package com.example.clinic.controller;
 
-import com.example.clinic.model.Doctor;
-import com.example.clinic.model.Role;
-import com.example.clinic.model.User;
+import com.example.clinic.model.*;
+import com.example.clinic.repository.AppointmentRepository;
 import com.example.clinic.repository.DoctorRepository;
 import com.example.clinic.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +18,7 @@ public class AdminController {
 
     private final UserRepository userRepository;
     private final DoctorRepository doctorRepository;
-
+    private final AppointmentRepository appointmentRepository;
 
     @GetMapping("/users")
     public String viewAllUsers(Model model) {
@@ -53,4 +52,23 @@ public class AdminController {
         return "redirect:/admin/users";
     }
 
+    @GetMapping("/appointments")
+    public String showAppointmentsForm(Model model) {
+        List<Doctor> doctors = doctorRepository.findAll();
+        model.addAttribute("doctors", doctors);
+        model.addAttribute("appointment", new Appointment());
+        return "admin/appointments";
+    }
+
+    @PostMapping("/appointments")
+    public String addAppointment(@ModelAttribute Appointment appointment,
+                                 @RequestParam String doctorEmail) {
+        doctorRepository.findByEmail(doctorEmail).ifPresent(doctor -> {
+            appointment.setDoctor(doctor);
+            appointment.setStatus(AppointmentStatus.SCHEDULED);
+            appointment.setUser(null); // Пока без пациента
+            appointmentRepository.save(appointment);
+        });
+        return "redirect:/admin/appointments";
+    }
 }

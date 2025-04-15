@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Ваши приемы</title>
+</head>
+<body>
+<h1>Ваши приемы</h1>
+
+<h2>Сегодняшние</h2>
+<ul>
+    <li th:each="app : ${todayAppointments}">
+        <span th:text="${#temporals.format(app.dateTime, 'HH:mm')}"></span> —
+        <span th:text="${app.user != null ? app.user.fullName : 'Не назначен'}"></span>
+    </li>
+</ul>
+
+<h2>Будущие</h2>
+<ul>
+    <li th:each="app : ${futureAppointments}">
+        <span th:text="${#temporals.format(app.dateTime, 'dd.MM.yyyy HH:mm')}"></span> —
+        <span th:text="${app.user != null ? app.user.fullName : 'Свободно'}"></span>
+    </li>
+</ul>
+
+<h2>Прошедшие</h2>
+<ul>
+    <li th:each="app : ${pastAppointments}">
+        <span th:text="${#temporals.format(app.dateTime, 'dd.MM.yyyy HH:mm')}"></span> —
+        <span th:text="${app.user != null ? app.user.fullName : 'Не назначен'}"></span>
+        <br/>
+        Диагноз: <span th:text="${app.diagnosis}"></span>
+    </li>
+</ul>
+
+<a th:href="@{/doctor/dashboard}">Назад</a>
+</body>
+</html>
