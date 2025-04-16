@@ -52,6 +52,6 @@ public class RegistrationController {
 
     @GetMapping("/logout")
     public String showHomePage() {
-        return "home_guest";
+        return "home";
     }
 }

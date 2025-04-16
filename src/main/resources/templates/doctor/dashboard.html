@@ -13,7 +13,9 @@
 <nav>
     <a th:href="@{/doctor/profile}">Ваш профиль</a> |
     <a th:href="@{/doctor/appointments}">Приёмы</a> |
-    <a th:href="@{/logout}">Выйти</a>
+    <form th:action="@{/logout}" method="post" style="display:inline;">
+        <button type="submit">Выйти</button>
+    </form>
 </nav>
 
 <main>

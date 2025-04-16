@@ -3,28 +3,35 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
-    <title>Поликлиника "Здоровье"</title>
-    <link rel="stylesheet" th:href="@{/styles/style.css}">
 </head>
 <body>
-<header>
+<div th:fragment="header">
     <nav>
         <a th:href="@{/}">Главная</a>
         <a th:href="@{/about}">О нас</a>
 
-        <!-- Кнопки для НЕавторизованных -->
-        <div sec:authorize="!isAuthenticated()">
+        <!-- Гость (не авторизован) -->
+        <span sec:authorize="isAnonymous()">
             <a th:href="@{/login}">Войти</a>
             <a th:href="@{/register}">Регистрация</a>
-        </div>
+        </span>
 
-        <!-- Кнопки для авторизованных -->
-        <div sec:authorize="isAuthenticated()">
+        <!-- Авторизованный пользователь -->
+        <span sec:authorize="isAuthenticated()">
             <a th:href="@{/profile}">Ваш профиль</a>
-            <a th:href="@{/appointments}">Запись ко врачу</a>
-            <a th:href="@{/logout}">Выйти</a>
-        </div>
+            <a th:href="@{/patient/appointments/available}">Запись ко врачу</a>
+<!--            <a th:href="@{/logout}">Выйти</a>-->
+            <form th:action="@{/logout}" method="post" style="display:inline;">
+                <button type="submit">Выйти</button>
+            </form>
+
+        </span>
+
+        <!-- Только для админа -->
+<!--        <span sec:authorize="hasRole('ADMIN')">-->
+<!--            <a th:href="@{/admin/users}">Админка</a>-->
+<!--        </span>-->
     </nav>
-</header>
+</div>
 </body>
 </html>

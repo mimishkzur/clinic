@@ -7,7 +7,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import java.security.Principal;
 import java.util.List;
 
 @Controller
@@ -20,15 +19,10 @@ public class MainController {
     }
 
     @GetMapping("/")
-    public String home(Model model, Principal principal) {
+    public String home(Model model) {
         List<Doctor> doctors = doctorRepository.findAll();
         model.addAttribute("doctors", doctors);
-
-        if (principal != null) {
-            return "home_user";
-        } else {
-            return "home_guest";
-        }
+        return "home";
     }
 
     @GetMapping("/about")
