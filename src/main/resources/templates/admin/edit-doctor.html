@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Редактирование врача</title>
+</head>
+<body>
+<h1>Редактирование информации о враче</h1>
+
+<form th:action="@{/admin/doctors/{email}/edit(email=${doctor.email})}" th:object="${doctor}" method="post">
+  <label>ФИО: <input type="text" th:field="*{fullName}" readonly /></label><br>
+  <label>Специализация: <input type="text" th:field="*{specialization}" /></label><br>
+  <label>Зарплата: <input type="number" th:field="*{salary}" /></label><br>
+  <button type="submit">Сохранить</button>
+</form>
+
+<a th:href="@{/admin/users}">Назад</a>
+</body>
+</html>

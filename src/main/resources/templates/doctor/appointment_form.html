@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Запись приёма</title>
+</head>
+<body>
+<h1>Запись приёма</h1>
+
+<form th:action="@{/doctor/appointments/{id}(id=${appointment.id})}" method="post" th:object="${appointment}">
+    <p>Пациент: <span th:text="${appointment.user.fullName}"></span></p>
+    <p>Дата: <span th:text="${#temporals.format(appointment.dateTime, 'dd.MM.yyyy HH:mm')}"></span></p>
+
+    <label>Диагноз: <input type="text" th:field="*{diagnosis}" /></label><br>
+    <label>Лечение: <input type="text" th:field="*{treatment}" /></label><br>
+    <label>Комментарий: <textarea th:field="*{notes}"></textarea></label><br>
+
+    <button type="submit">Сохранить</button>
+</form>
+
+<a th:href="@{/doctor/appointments}">Назад</a>
+</body>
+</html>

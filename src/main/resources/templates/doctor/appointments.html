@@ -12,6 +12,7 @@
     <li th:each="app : ${todayAppointments}">
         <span th:text="${#temporals.format(app.dateTime, 'HH:mm')}"></span> —
         <span th:text="${app.user != null ? app.user.fullName : 'Не назначен'}"></span>
+        <a th:href="@{/doctor/appointments/{id}/edit(id=${app.id})}">Редактировать</a>
     </li>
 </ul>
 
@@ -30,6 +31,7 @@
         <span th:text="${app.user != null ? app.user.fullName : 'Не назначен'}"></span>
         <br/>
         Диагноз: <span th:text="${app.diagnosis}"></span>
+        <a th:href="@{/doctor/appointments/{id}/edit(id=${app.id})}">Редактировать</a>
     </li>
 </ul>
 

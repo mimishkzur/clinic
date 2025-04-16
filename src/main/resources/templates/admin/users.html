@@ -4,16 +4,18 @@
     <meta charset="UTF-8">
     <title>Управление пользователями</title>
     <link rel="stylesheet" th:href="@{/styles/style.css}">
-    <a th:href="@{/admin/appointments}">
-        <button>Добавить прием врачу</button>
-    </a>
 </head>
 <body>
-<!--<header th:replace="~{fragments/header :: header}"></header>-->
+<!-- Заголовок -->
 <div th:insert="~{fragments/header_guest :: header}"></div>
 
 <main>
     <h1>Список пользователей</h1>
+
+    <!-- Кнопка добавить прием врачу -->
+    <a th:href="@{/admin/appointments}">
+        <button>Добавить прием врачу</button>
+    </a>
 
     <table>
         <thead>
@@ -23,6 +25,7 @@
             <th>Телефон</th>
             <th>Роль</th>
             <th>Изменить роль</th>
+            <th>Редактировать врача</th> <!-- добавили заголовок для кнопки -->
         </tr>
         </thead>
         <tbody>
@@ -31,6 +34,8 @@
             <td th:text="${user.fullName}"></td>
             <td th:text="${user.phone}"></td>
             <td th:text="${user.role}"></td>
+
+            <!-- Форма смены роли -->
             <td>
                 <form th:action="@{'/admin/users/' + ${user.email} + '/role'}" method="post">
                     <select name="role">
@@ -40,6 +45,14 @@
                     </select>
                     <button type="submit">Сохранить</button>
                 </form>
+            </td>
+
+            <!-- Кнопка "Редактировать врача" -->
+            <td>
+                <a th:if="${user.role == T(com.example.clinic.model.Role).DOCTOR}"
+                   th:href="@{'/admin/doctors/' + ${user.email} + '/edit'}">
+                    <button type="button">Редактировать врача</button>
+                </a>
             </td>
         </tr>
         </tbody>

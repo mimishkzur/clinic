@@ -138,4 +138,45 @@ public class DoctorController {
         return "doctor/appointments";
     }
 
+    @GetMapping("/appointments/{id}/edit")
+    public String editAppointment(@PathVariable Long id, Model model, Principal principal) {
+        Appointment appointment = appointmentRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Приём не найден"));
+
+        // Проверка: врач имеет доступ только к своим приёмам
+        Doctor doctor = doctorRepository.findByEmail(principal.getName())
+                .orElseThrow(() -> new RuntimeException("Доктор не найден"));
+
+        if (!appointment.getDoctor().getEmail().equals(doctor.getEmail())) {
+            throw new RuntimeException("Доступ запрещён");
+        }
+
+        model.addAttribute("appointment", appointment);
+        return "doctor/appointment_form";
+    }
+
+    @PostMapping("/appointments/{id}")
+    public String updateAppointment(@PathVariable Long id,
+                                    @ModelAttribute Appointment formAppointment,
+                                    Principal principal) {
+        Appointment appointment = appointmentRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Приём не найден"));
+
+        // Проверка, что врач сохраняет только свои приёмы
+        Doctor doctor = doctorRepository.findByEmail(principal.getName())
+                .orElseThrow(() -> new RuntimeException("Доктор не найден"));
+
+        if (!appointment.getDoctor().getEmail().equals(doctor.getEmail())) {
+            throw new RuntimeException("Доступ запрещён");
+        }
+
+        appointment.setDiagnosis(formAppointment.getDiagnosis());
+        appointment.setTreatment(formAppointment.getTreatment());
+        appointment.setNotes(formAppointment.getNotes());
+        appointmentRepository.save(appointment);
+
+        return "redirect:/doctor/appointments";
+    }
+
+
 }

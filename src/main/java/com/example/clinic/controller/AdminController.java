@@ -71,4 +71,25 @@ public class AdminController {
         });
         return "redirect:/admin/appointments";
     }
+
+    @GetMapping("/doctors/{email}/edit")
+    public String editDoctor(@PathVariable String email, Model model) {
+        Doctor doctor = doctorRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("Доктор не найден"));
+        model.addAttribute("doctor", doctor);
+        return "admin/edit-doctor";
+    }
+
+    @PostMapping("/doctors/{email}/edit")
+    public String updateDoctor(@PathVariable String email,
+                               @ModelAttribute Doctor updatedDoctor) {
+        Doctor doctor = doctorRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("Доктор не найден"));
+
+        doctor.setSpecialization(updatedDoctor.getSpecialization());
+        doctor.setSalary(updatedDoctor.getSalary());
+        doctorRepository.save(doctor);
+        return "redirect:/admin/users";
+    }
+
 }

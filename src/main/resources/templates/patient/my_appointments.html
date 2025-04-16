@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Мои приёмы</title>
+</head>
+<body>
+<h1>Мои приёмы</h1>
+
+<table>
+    <thead>
+    <tr>
+        <th>Дата</th>
+        <th>Время</th>
+        <th>Врач</th>
+        <th>Специализация</th>
+        <th>Статус</th>
+        <th>Диагноз</th>
+        <th>Лечение</th>
+        <th>Заметки</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="app : ${appointments}">
+        <td th:text="${#temporals.format(app.dateTime, 'dd.MM.yyyy')}"></td>
+        <td th:text="${#temporals.format(app.dateTime, 'HH:mm')}"></td>
+        <td th:text="${app.doctor.fullName}"></td>
+        <td th:text="${app.doctor.specialization}"></td>
+        <td th:text="${app.status}"></td>
+        <td th:text="${app.diagnosis != null ? app.diagnosis : '-'}"></td>
+        <td th:text="${app.treatment != null ? app.treatment : '-'}"></td>
+        <td th:text="${app.notes != null ? app.notes : '-'}"></td>
+    </tr>
+    </tbody>
+</table>
+
+<a th:href="@{/}">На главную</a>
+</body>
+</html>
