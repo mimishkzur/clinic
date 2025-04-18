@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+<div th:fragment="header">
+    <nav>
+        <form th:action="@{/logout}" method="post" style="display:inline;">
+            <button type="submit">Выйти</button>
+        </form>
+    </nav>
+</div>
+</body>
+</html>

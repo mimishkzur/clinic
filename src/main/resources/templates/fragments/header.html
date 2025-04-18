@@ -20,17 +20,10 @@
         <span sec:authorize="isAuthenticated()">
             <a th:href="@{/profile}">Ваш профиль</a>
             <a th:href="@{/patient/appointments/available}">Запись ко врачу</a>
-<!--            <a th:href="@{/logout}">Выйти</a>-->
             <form th:action="@{/logout}" method="post" style="display:inline;">
                 <button type="submit">Выйти</button>
             </form>
-
         </span>
-
-        <!-- Только для админа -->
-<!--        <span sec:authorize="hasRole('ADMIN')">-->
-<!--            <a th:href="@{/admin/users}">Админка</a>-->
-<!--        </span>-->
     </nav>
 </div>
 </body>

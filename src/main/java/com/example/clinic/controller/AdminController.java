@@ -21,10 +21,25 @@ public class AdminController {
     private final AppointmentRepository appointmentRepository;
 
     @GetMapping("/users")
-    public String viewAllUsers(Model model) {
-        List<User> users = userRepository.findAll();
+    public String viewAllUsers(@RequestParam(required = false) String email,
+                               @RequestParam(required = false) Role role,
+                               Model model) {
+        List<User> users;
+
+        if ((email != null && !email.isEmpty()) || role != null) {
+            users = userRepository.findAll().stream()
+                    .filter(u -> (email == null || u.getEmail().toLowerCase().contains(email.toLowerCase())))
+                    .filter(u -> (role == null || u.getRole() == role))
+                    .toList();
+        } else {
+            users = userRepository.findAll();
+        }
+
         model.addAttribute("users", users);
         model.addAttribute("roles", Role.values());
+        model.addAttribute("email", email);
+        model.addAttribute("role", role);
+
         return "admin/users";
     }
 
@@ -53,10 +68,19 @@ public class AdminController {
     }
 
     @GetMapping("/appointments")
-    public String showAppointmentsForm(Model model) {
+    public String showAppointmentsForm(@RequestParam(required = false) String doctorEmail, Model model) {
         List<Doctor> doctors = doctorRepository.findAll();
         model.addAttribute("doctors", doctors);
+        model.addAttribute("selectedDoctorEmail", doctorEmail);
         model.addAttribute("appointment", new Appointment());
+
+        if (doctorEmail != null && !doctorEmail.isEmpty()) {
+            doctorRepository.findByEmail(doctorEmail).ifPresent(doctor -> {
+                List<Appointment> appointments = appointmentRepository.findByDoctor(doctor);
+                model.addAttribute("appointments", appointments);
+            });
+        }
+
         return "admin/appointments";
     }
 
@@ -69,8 +93,9 @@ public class AdminController {
             appointment.setUser(null); // Пока без пациента
             appointmentRepository.save(appointment);
         });
-        return "redirect:/admin/appointments";
+        return "redirect:/admin/appointments?doctorEmail=" + doctorEmail;
     }
+
 
     @GetMapping("/doctors/{email}/edit")
     public String editDoctor(@PathVariable String email, Model model) {

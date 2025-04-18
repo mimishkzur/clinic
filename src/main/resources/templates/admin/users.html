@@ -7,7 +7,7 @@
 </head>
 <body>
 <!-- Заголовок -->
-<div th:insert="~{fragments/header :: header}"></div>
+<div th:insert="~{fragments/header_admin :: header}"></div>
 
 <main>
     <h1>Список пользователей</h1>
@@ -16,6 +16,23 @@
     <a th:href="@{/admin/appointments}">
         <button>Добавить прием врачу</button>
     </a>
+
+    <form th:action="@{/admin/users}" method="get" style="margin-bottom: 20px;">
+        <label for="email">Email:</label>
+        <input type="text" name="email" id="email" th:value="${email}"/>
+
+        <label for="role">Роль:</label>
+        <select name="role" id="role">
+            <option value="">Все</option>
+            <option th:each="r : ${roles}"
+                    th:value="${r}"
+                    th:text="${r}"
+                    th:selected="${role == r}"></option>
+        </select>
+
+        <button type="submit">Найти</button>
+    </form>
+
 
     <table>
         <thead>
