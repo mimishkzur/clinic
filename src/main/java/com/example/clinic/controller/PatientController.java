@@ -59,7 +59,7 @@ public class PatientController {
 
         if (appointment.getUser() != null && appointment.getUser().getEmail().equals(user.getEmail())) {
             appointment.setUser(null);
-            appointment.setStatus(AppointmentStatus.SCHEDULED);
+            appointment.setStatus(AppointmentStatus.AVAILABLE);
             appointmentRepository.save(appointment);
         }
         return "redirect:/patient/my-appointments";
