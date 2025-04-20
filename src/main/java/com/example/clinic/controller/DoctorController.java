@@ -1,6 +1,7 @@
 package com.example.clinic.controller;
 
 import com.example.clinic.model.Appointment;
+import com.example.clinic.model.AppointmentStatus;
 import com.example.clinic.model.Doctor;
 import com.example.clinic.repository.AppointmentRepository;
 import com.example.clinic.repository.DoctorRepository;
@@ -115,6 +116,7 @@ public class DoctorController {
         appointment.setDiagnosis(formAppointment.getDiagnosis());
         appointment.setTreatment(formAppointment.getTreatment());
         appointment.setNotes(formAppointment.getNotes());
+        appointment.setStatus(AppointmentStatus.COMPLETED);
         appointmentRepository.save(appointment);
 
         return "redirect:/doctor/appointments";

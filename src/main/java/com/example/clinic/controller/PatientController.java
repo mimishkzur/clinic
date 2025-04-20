@@ -1,6 +1,7 @@
 package com.example.clinic.controller;
 
 import com.example.clinic.model.Appointment;
+import com.example.clinic.model.AppointmentStatus;
 import com.example.clinic.model.User;
 import com.example.clinic.repository.AppointmentRepository;
 import com.example.clinic.repository.UserRepository;
@@ -37,6 +38,7 @@ public class PatientController {
         User user = userRepository.findByEmail(userEmail).orElseThrow();
         appointment.setUser(user);
         appointmentRepository.save(appointment);
+        appointment.setStatus(AppointmentStatus.SCHEDULED);
         return "redirect:/patient/my-appointments";
     }
 
@@ -47,6 +49,20 @@ public class PatientController {
         List<Appointment> myAppointments = appointmentRepository.findByUser(user);
         model.addAttribute("appointments", myAppointments);
         return "patient/my_appointments";
+    }
+
+    @PostMapping("/appointments/cancel/{id}")
+    public String cancelAppointment(@PathVariable Long id, Principal principal) {
+        Appointment appointment = appointmentRepository.findById(id).orElseThrow();
+        String email = principal.getName();
+        User user = userRepository.findByEmail(email).orElseThrow();
+
+        if (appointment.getUser() != null && appointment.getUser().getEmail().equals(user.getEmail())) {
+            appointment.setUser(null);
+            appointment.setStatus(AppointmentStatus.SCHEDULED);
+            appointmentRepository.save(appointment);
+        }
+        return "redirect:/patient/my-appointments";
     }
 }
 

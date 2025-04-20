@@ -89,13 +89,12 @@ public class AdminController {
                                  @RequestParam String doctorEmail) {
         doctorRepository.findByEmail(doctorEmail).ifPresent(doctor -> {
             appointment.setDoctor(doctor);
-            appointment.setStatus(AppointmentStatus.SCHEDULED);
+            appointment.setStatus(AppointmentStatus.AVAILABLE);
             appointment.setUser(null); // Пока без пациента
             appointmentRepository.save(appointment);
         });
         return "redirect:/admin/appointments?doctorEmail=" + doctorEmail;
     }
-
 
     @GetMapping("/doctors/{email}/edit")
     public String editDoctor(@PathVariable String email, Model model) {

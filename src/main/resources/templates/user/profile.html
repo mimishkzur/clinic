@@ -20,6 +20,7 @@
         <thead>
         <tr>
             <th>Дата</th>
+            <th>Время</th>
             <th>Доктор</th>
             <th>Диагноз</th>
             <th>Лечение</th>
@@ -27,7 +28,8 @@
         </thead>
         <tbody>
         <tr th:each="appointment : ${appointments}">
-            <td th:text="${appointment.dateTime}"></td>
+            <td th:text="${#temporals.format(appointment.dateTime, 'dd.MM.yyyy')}"></td>
+            <td th:text="${#temporals.format(appointment.dateTime, 'HH:mm')}"></td>
             <td th:text="${appointment.doctor.fullName}"></td>
             <td th:text="${appointment.diagnosis}"></td>
             <td th:text="${appointment.treatment}"></td>

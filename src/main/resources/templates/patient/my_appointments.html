@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Мои приёмы</title>
 </head>
+<div th:insert="~{fragments/header :: header}"></div>
 <body>
 <h1>Мои приёмы</h1>
 
@@ -14,7 +15,6 @@
         <th>Время</th>
         <th>Врач</th>
         <th>Специализация</th>
-        <th>Статус</th>
         <th>Диагноз</th>
         <th>Лечение</th>
         <th>Заметки</th>
@@ -26,10 +26,17 @@
         <td th:text="${#temporals.format(app.dateTime, 'HH:mm')}"></td>
         <td th:text="${app.doctor.fullName}"></td>
         <td th:text="${app.doctor.specialization}"></td>
-        <td th:text="${app.status}"></td>
         <td th:text="${app.diagnosis != null ? app.diagnosis : '-'}"></td>
         <td th:text="${app.treatment != null ? app.treatment : '-'}"></td>
         <td th:text="${app.notes != null ? app.notes : '-'}"></td>
+        <td>
+            <form th:action="@{'/patient/appointments/cancel/' + ${app.id}}" method="post"
+                  th:if="${app.status != 'COMPLETED' and app.status != 'CANCELLED'}">
+                <button type="submit">Отменить</button>
+            </form>
+            <span th:if="${app.status == 'COMPLETED'}">Завершено</span>
+            <span th:if="${app.status == 'CANCELLED'}">Отменено</span>
+        </td>
     </tr>
     </tbody>
 </table>

@@ -20,6 +20,7 @@
         <span sec:authorize="isAuthenticated()">
             <a th:href="@{/profile}">Ваш профиль</a>
             <a th:href="@{/patient/appointments/available}">Запись ко врачу</a>
+            <a th:href="@{/patient/my-appointments}">Ваши записи</a>
             <form th:action="@{/logout}" method="post" style="display:inline;">
                 <button type="submit">Выйти</button>
             </form>
