@@ -6,18 +6,10 @@
     <link rel="stylesheet" th:href="@{/styles/style.css}">
 </head>
 <body>
+<div th:insert="~{fragments/header_doctor :: header}"></div>
 <header>
     <h1>Кабинет врача</h1>
 </header>
-
-<nav>
-    <a th:href="@{/doctor/profile}">Ваш профиль</a> |
-    <a th:href="@{/doctor/appointments}">Приёмы</a> |
-    <form th:action="@{/logout}" method="post" style="display:inline;">
-        <button type="submit">Выйти</button>
-    </form>
-</nav>
-
 <main>
     <p>Добро пожаловать в систему, доктор!</p>
 </main>

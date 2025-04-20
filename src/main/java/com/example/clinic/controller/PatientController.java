@@ -58,8 +58,8 @@ public class PatientController {
         String userEmail = principal.getName();
         User user = userRepository.findByEmail(userEmail).orElseThrow();
         appointment.setUser(user);
-        appointmentRepository.save(appointment);
         appointment.setStatus(AppointmentStatus.SCHEDULED);
+        appointmentRepository.save(appointment);
         return "redirect:/patient/my-appointments";
     }
 
