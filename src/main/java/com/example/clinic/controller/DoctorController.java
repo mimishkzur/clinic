@@ -44,7 +44,7 @@ public class DoctorController {
         if (doctor != null) {
             doctor.setBirthDate(formDoctor.getBirthDate());
             doctor.setEducation(formDoctor.getEducation());
-            doctor.setExperience(formDoctor.getExperience());
+            doctor.setWorkStartDate(formDoctor.getWorkStartDate());
             doctor.setDescription(formDoctor.getDescription());
             doctorRepository.save(doctor);
         }

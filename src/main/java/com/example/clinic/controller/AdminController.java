@@ -9,7 +9,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.TreeMap;
 
 @Controller
 @RequestMapping("/admin")
@@ -114,6 +118,39 @@ public class AdminController {
         doctor.setSalary(updatedDoctor.getSalary());
         doctorRepository.save(doctor);
         return "redirect:/admin/users";
+    }
+
+    @GetMapping("/statistics")
+    public String statistics(Model model) {
+        List<Appointment> appointments = appointmentRepository.findAll();
+
+        // Группировка по датам
+        Map<LocalDate, Long> appointmentsPerDay = appointments.stream()
+                .collect(Collectors.groupingBy(
+                        a -> a.getDateTime().toLocalDate(),
+                        TreeMap::new,
+                        Collectors.counting()
+                ));
+
+        // Группировка по врачам
+        Map<String, Long> appointmentsPerDoctor = appointments.stream()
+                .collect(Collectors.groupingBy(
+                        a -> a.getDoctor().getFullName(),
+                        Collectors.counting()
+                ));
+
+        // Статусы
+        Map<String, Long> statusCounts = appointments.stream()
+                .collect(Collectors.groupingBy(
+                        a -> a.getStatus().toString(),
+                        Collectors.counting()
+                ));
+
+        model.addAttribute("appointmentsPerDay", appointmentsPerDay);
+        model.addAttribute("appointmentsPerDoctor", appointmentsPerDoctor);
+        model.addAttribute("statusCounts", statusCounts);
+
+        return "admin/statistics";
     }
 
 }

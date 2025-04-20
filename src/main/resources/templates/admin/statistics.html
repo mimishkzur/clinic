@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Статистика</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        canvas {
+            max-width: 800px;
+            margin: 30px auto;
+            display: block;
+        }
+        h2 {
+            text-align: center;
+        }
+    </style>
+</head>
+<div th:insert="~{fragments/header_admin :: header}"></div>
+<body>
+<h1>Статистика</h1>
+
+<h2>Приёмы по дням</h2>
+<canvas id="appointmentsPerDay"></canvas>
+
+<h2>Загруженность врачей</h2>
+<canvas id="appointmentsPerDoctor"></canvas>
+
+<h2>Статусы приёмов</h2>
+<canvas id="appointmentStatuses"></canvas>
+
+<script th:inline="javascript">
+    /*<![CDATA[*/
+
+    const appointmentsPerDayLabels = [[${appointmentsPerDay.keySet()}]];
+    const appointmentsPerDayData = [[${appointmentsPerDay.values()}]];
+
+    const appointmentsPerDoctorLabels = [[${appointmentsPerDoctor.keySet()}]];
+    const appointmentsPerDoctorData = [[${appointmentsPerDoctor.values()}]];
+
+    const statusLabels = [[${statusCounts.keySet()}]];
+    const statusData = [[${statusCounts.values()}]];
+
+    // 📅 Приёмы по дням
+    new Chart(document.getElementById("appointmentsPerDay"), {
+        type: 'bar',
+        data: {
+            labels: appointmentsPerDayLabels,
+            datasets: [{
+                label: 'Количество приёмов',
+                data: appointmentsPerDayData,
+                backgroundColor: 'rgba(54, 162, 235, 0.7)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: { responsive: true }
+    });
+
+    // 🧑‍⚕️ Загруженность врачей
+    new Chart(document.getElementById("appointmentsPerDoctor"), {
+        type: 'bar',
+        data: {
+            labels: appointmentsPerDoctorLabels,
+            datasets: [{
+                label: 'Количество приёмов',
+                data: appointmentsPerDoctorData,
+                backgroundColor: 'rgba(255, 206, 86, 0.7)',
+                borderColor: 'rgba(255, 206, 86, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: { responsive: true }
+    });
+
+    // 📈 Статусы приёмов
+    new Chart(document.getElementById("appointmentStatuses"), {
+        type: 'pie',
+        data: {
+            labels: statusLabels,
+            datasets: [{
+                label: 'Статус',
+                data: statusData,
+                backgroundColor: [
+                    'rgba(75, 192, 192, 0.7)', // AVAILABLE
+                    'rgba(255, 159, 64, 0.7)', // SCHEDULED
+                    'rgba(153, 102, 255, 0.7)' // COMPLETED
+                ],
+                borderColor: '#fff',
+                borderWidth: 1
+            }]
+        },
+        options: { responsive: true }
+    });
+
+    /*]]>*/
+</script>
+</body>
+</html>

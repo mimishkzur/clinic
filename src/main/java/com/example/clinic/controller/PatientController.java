@@ -8,13 +8,11 @@ import com.example.clinic.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/patient")
@@ -24,10 +22,33 @@ public class PatientController {
     private final AppointmentRepository appointmentRepository;
     private final UserRepository userRepository;
 
+//    @GetMapping("/appointments/available")
+//    public String viewAvailableAppointments(Model model) {
+//        List<Appointment> availableAppointments = appointmentRepository.findByUserIsNullOrderByDateTimeAsc();
+//        model.addAttribute("appointments", availableAppointments);
+//        return "patient/available_appointments";
+//    }
     @GetMapping("/appointments/available")
-    public String viewAvailableAppointments(Model model) {
+    public String viewAvailableAppointments(@RequestParam(required = false) String specialization, Model model) {
         List<Appointment> availableAppointments = appointmentRepository.findByUserIsNullOrderByDateTimeAsc();
+
+        // Получаем список специализаций всех врачей
+        List<String> specializations = availableAppointments.stream()
+                .map(a -> a.getDoctor().getSpecialization())
+                .distinct()
+                .sorted()
+                .collect(Collectors.toList());
+
+        if (specialization != null && !specialization.isEmpty()) {
+            availableAppointments = availableAppointments.stream()
+                    .filter(app -> specialization.equals(app.getDoctor().getSpecialization()))
+                    .collect(Collectors.toList());
+        }
+
         model.addAttribute("appointments", availableAppointments);
+        model.addAttribute("specializations", specializations);
+        model.addAttribute("selectedSpecialization", specialization);
+
         return "patient/available_appointments";
     }
 
@@ -42,12 +63,37 @@ public class PatientController {
         return "redirect:/patient/my-appointments";
     }
 
+//    @GetMapping("/my-appointments")
+//    public String myAppointments(Model model, Principal principal) {
+//        String email = principal.getName();
+//        User user = userRepository.findByEmail(email).orElseThrow();
+//        List<Appointment> myAppointments = appointmentRepository.findByUser(user);
+//        model.addAttribute("appointments", myAppointments);
+//        return "patient/my_appointments";
+//    }
     @GetMapping("/my-appointments")
-    public String myAppointments(Model model, Principal principal) {
+    public String myAppointments(@RequestParam(required = false) String specialization, Model model, Principal principal) {
         String email = principal.getName();
         User user = userRepository.findByEmail(email).orElseThrow();
         List<Appointment> myAppointments = appointmentRepository.findByUser(user);
+
+        // Получаем список специализаций врача из моих приёмов
+        List<String> specializations = myAppointments.stream()
+                .map(a -> a.getDoctor().getSpecialization())
+                .distinct()
+                .sorted()
+                .collect(Collectors.toList());
+
+        if (specialization != null && !specialization.isEmpty()) {
+            myAppointments = myAppointments.stream()
+                    .filter(app -> specialization.equals(app.getDoctor().getSpecialization()))
+                    .collect(Collectors.toList());
+        }
+
         model.addAttribute("appointments", myAppointments);
+        model.addAttribute("specializations", specializations);
+        model.addAttribute("selectedSpecialization", specialization);
+
         return "patient/my_appointments";
     }
 

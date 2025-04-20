@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.time.Period;
 
 @Data
 @AllArgsConstructor
@@ -27,8 +28,13 @@ public class Doctor {
 
     private LocalDate birthDate;
     private String education;
-    private Integer experience;
+    private LocalDate workStartDate;
     private String description;
 
     private Integer Salary;
+
+    public int getExperience() {
+        if (workStartDate == null) return 0;
+        return Period.between(workStartDate, LocalDate.now()).getYears();
+    }
 }

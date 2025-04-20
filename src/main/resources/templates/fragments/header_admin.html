@@ -7,6 +7,8 @@
 <body>
 <div th:fragment="header">
     <nav>
+        <a th:href="@{/admin/users}">Список пользователей</a>
+        <a th:href="@{/admin/statistics}">Статистическая информация</a>
         <form th:action="@{/logout}" method="post" style="display:inline;">
             <button type="submit">Выйти</button>
         </form>

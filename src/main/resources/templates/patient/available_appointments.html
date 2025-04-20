@@ -1,3 +1,37 @@
+<!--<!DOCTYPE html>-->
+<!--<html xmlns:th="http://www.thymeleaf.org">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title>Доступные приёмы</title>-->
+<!--</head>-->
+<!--<div th:insert="~{fragments/header :: header}"></div>-->
+<!--<body>-->
+<!--<h1>Выберите приём</h1>-->
+
+<!--<table>-->
+<!--    <tr>-->
+<!--        <th>Дата</th>-->
+<!--        <th>Время</th>-->
+<!--        <th>Врач</th>-->
+<!--        <th>Специализация</th>-->
+<!--        <th>Действие</th>-->
+<!--    </tr>-->
+<!--    <tr th:each="app : ${appointments}">-->
+<!--        <td th:text="${#temporals.format(app.dateTime, 'dd.MM.yyyy')}"></td>-->
+<!--        <td th:text="${#temporals.format(app.dateTime, 'HH:mm')}"></td>-->
+<!--        <td th:text="${app.doctor.fullName}"></td>-->
+<!--        <td th:text="${app.doctor.specialization}"></td>-->
+<!--        <td>-->
+<!--            <form th:action="@{'/patient/appointments/book/' + ${app.id}}" method="post">-->
+<!--                <button type="submit">Записаться</button>-->
+<!--            </form>-->
+<!--        </td>-->
+<!--    </tr>-->
+<!--</table>-->
+
+<!--<a th:href="@{/}">На главную</a>-->
+<!--</body>-->
+<!--</html>-->
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -7,6 +41,21 @@
 <div th:insert="~{fragments/header :: header}"></div>
 <body>
 <h1>Выберите приём</h1>
+
+<form method="get" th:action="@{/patient/appointments/available}">
+    <label for="specialization">Фильтр по специализации:</label>
+    <select id="specialization" name="specialization">
+        <option value="">Все</option>
+        <option th:each="spec : ${specializations}"
+                th:value="${spec}"
+                th:text="${spec}"
+                th:selected="${spec == selectedSpecialization}">
+        </option>
+    </select>
+    <button type="submit">Применить</button>
+</form>
+
+<br/>
 
 <table>
     <tr>

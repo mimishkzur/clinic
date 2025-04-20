@@ -13,10 +13,16 @@
     <p>Телефон: <span th:text="*{user.phone}"></span></p>
     <p>Специализация: <span th:text="*{specialization}"></span></p>
     <p>Зарплата: <span th:text="*{salary}"></span></p>
-
-    <label>Дата рождения: <input type="date" th:field="*{birthDate}"/></label><br>
+    <label>Дата рождения:
+        <input type="date" name="birthDate"
+               th:value="${doctor.birthDate != null ? #temporals.format(doctor.birthDate, 'yyyy-MM-dd') : ''}"/>
+    </label><br>
     <label>Образование: <input type="text" th:field="*{education}"/></label><br>
-    <label>Опыт (лет): <input type="number" th:field="*{experience}"/></label><br>
+    <label>Дата начала работы:
+        <input type="date" name="workStartDate"
+               th:value="${doctor.workStartDate != null ? #temporals.format(doctor.workStartDate, 'yyyy-MM-dd') : ''}"/>
+    </label><br>
+    <p>Стаж: <span th:text="${doctor.experience} + ' лет'"></span></p>
     <label>О себе: <textarea th:field="*{description}"></textarea></label><br>
 
     <button type="submit">Сохранить</button>
