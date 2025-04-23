@@ -4,14 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <title>Главная | Поликлиника "Здоровье"</title>
-    <link rel="stylesheet" th:href="@{/styles/style.css}">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
 
-<!-- Общая шапка -->
 <div th:insert="~{fragments/header :: header}"></div>
 
-<main>
+<main class="container">
     <h1>Добро пожаловать в поликлинику "Здоровье"</h1>
     <p>Мы предлагаем качественное медицинское обслуживание для всей семьи.</p>
 
@@ -46,10 +45,10 @@
         </table>
     </section>
 
-    <!-- Показывать кнопку регистрации только неавторизованным -->
     <div sec:authorize="isAnonymous()">
         <a th:href="@{/register}" class="button">Зарегистрироваться</a>
     </div>
 </main>
+
 </body>
 </html>
