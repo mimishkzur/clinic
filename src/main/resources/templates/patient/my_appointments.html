@@ -1,62 +1,126 @@
+<!--<!DOCTYPE html>-->
+<!--<html xmlns:th="http://www.thymeleaf.org">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title>Мои приёмы</title>-->
+<!--</head>-->
+<!--<div th:insert="~{fragments/header :: header}"></div>-->
+<!--<body>-->
+<!--<h1>Мои приёмы</h1>-->
+
+<!--<form method="get" th:action="@{/patient/my-appointments}">-->
+<!--    <label for="specialization">Фильтр по специализации:</label>-->
+<!--    <select id="specialization" name="specialization">-->
+<!--        <option value="">Все</option>-->
+<!--        <option th:each="spec : ${specializations}"-->
+<!--                th:value="${spec}"-->
+<!--                th:text="${spec}"-->
+<!--                th:selected="${spec == selectedSpecialization}">-->
+<!--        </option>-->
+<!--    </select>-->
+<!--    <button type="submit">Применить</button>-->
+<!--</form>-->
+
+<!--<br/>-->
+
+<!--<table>-->
+<!--    <thead>-->
+<!--    <tr>-->
+<!--        <th>Дата</th>-->
+<!--        <th>Время</th>-->
+<!--        <th>Врач</th>-->
+<!--        <th>Специализация</th>-->
+<!--        <th>Диагноз</th>-->
+<!--        <th>Лечение</th>-->
+<!--        <th>Заметки</th>-->
+<!--        <th>Статус</th>-->
+<!--    </tr>-->
+<!--    </thead>-->
+<!--    <tbody>-->
+<!--    <tr th:each="app : ${appointments}">-->
+<!--        <td th:text="${#temporals.format(app.dateTime, 'dd.MM.yyyy')}"></td>-->
+<!--        <td th:text="${#temporals.format(app.dateTime, 'HH:mm')}"></td>-->
+<!--        <td th:text="${app.doctor.fullName}"></td>-->
+<!--        <td th:text="${app.doctor.specialization}"></td>-->
+<!--        <td th:text="${app.diagnosis != null ? app.diagnosis : '-'}"></td>-->
+<!--        <td th:text="${app.treatment != null ? app.treatment : '-'}"></td>-->
+<!--        <td th:text="${app.notes != null ? app.notes : '-'}"></td>-->
+<!--        <td>-->
+<!--            <form th:action="@{'/patient/appointments/cancel/' + ${app.id}}" method="post"-->
+<!--                  th:if="${app.status != 'COMPLETED' and app.status != 'CANCELLED'}">-->
+<!--                <button type="submit">Отменить</button>-->
+<!--            </form>-->
+<!--            <span th:if="${app.status == 'COMPLETED'}">Завершено</span>-->
+<!--            <span th:if="${app.status == 'CANCELLED'}">Отменено</span>-->
+<!--        </td>-->
+<!--    </tr>-->
+<!--    </tbody>-->
+<!--</table>-->
+
+<!--<a th:href="@{/}">На главную</a>-->
+<!--</body>-->
+<!--</html>-->
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Мои приёмы</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
-<div th:insert="~{fragments/header :: header}"></div>
 <body>
-<h1>Мои приёмы</h1>
+<div th:insert="~{fragments/header :: header}"></div>
 
-<form method="get" th:action="@{/patient/my-appointments}">
-    <label for="specialization">Фильтр по специализации:</label>
-    <select id="specialization" name="specialization">
-        <option value="">Все</option>
-        <option th:each="spec : ${specializations}"
-                th:value="${spec}"
-                th:text="${spec}"
-                th:selected="${spec == selectedSpecialization}">
-        </option>
-    </select>
-    <button type="submit">Применить</button>
-</form>
+<main class="container">
+    <h1>Мои приёмы</h1>
 
-<br/>
+    <form method="get" th:action="@{/patient/my-appointments}" class="filter-form">
+        <label for="specialization">Фильтр по специализации:</label>
+        <select id="specialization" name="specialization">
+            <option value="">Все</option>
+            <option th:each="spec : ${specializations}"
+                    th:value="${spec}"
+                    th:text="${spec}"
+                    th:selected="${spec == selectedSpecialization}">
+            </option>
+        </select>
+        <button type="submit" class="button">Применить</button>
+    </form>
 
-<table>
-    <thead>
-    <tr>
-        <th>Дата</th>
-        <th>Время</th>
-        <th>Врач</th>
-        <th>Специализация</th>
-        <th>Диагноз</th>
-        <th>Лечение</th>
-        <th>Заметки</th>
-        <th>Статус</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="app : ${appointments}">
-        <td th:text="${#temporals.format(app.dateTime, 'dd.MM.yyyy')}"></td>
-        <td th:text="${#temporals.format(app.dateTime, 'HH:mm')}"></td>
-        <td th:text="${app.doctor.fullName}"></td>
-        <td th:text="${app.doctor.specialization}"></td>
-        <td th:text="${app.diagnosis != null ? app.diagnosis : '-'}"></td>
-        <td th:text="${app.treatment != null ? app.treatment : '-'}"></td>
-        <td th:text="${app.notes != null ? app.notes : '-'}"></td>
-        <td>
-            <form th:action="@{'/patient/appointments/cancel/' + ${app.id}}" method="post"
-                  th:if="${app.status != 'COMPLETED' and app.status != 'CANCELLED'}">
-                <button type="submit">Отменить</button>
-            </form>
-            <span th:if="${app.status == 'COMPLETED'}">Завершено</span>
-            <span th:if="${app.status == 'CANCELLED'}">Отменено</span>
-        </td>
-    </tr>
-    </tbody>
-</table>
+    <table>
+        <thead>
+        <tr>
+            <th>Дата</th>
+            <th>Время</th>
+            <th>Врач</th>
+            <th>Специализация</th>
+            <th>Диагноз</th>
+            <th>Лечение</th>
+            <th>Заметки</th>
+            <th>Статус</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="app : ${appointments}">
+            <td th:text="${#temporals.format(app.dateTime, 'dd.MM.yyyy')}"></td>
+            <td th:text="${#temporals.format(app.dateTime, 'HH:mm')}"></td>
+            <td th:text="${app.doctor.fullName}"></td>
+            <td th:text="${app.doctor.specialization}"></td>
+            <td th:text="${app.diagnosis != null ? app.diagnosis : '-'}"></td>
+            <td th:text="${app.treatment != null ? app.treatment : '-'}"></td>
+            <td th:text="${app.notes != null ? app.notes : '-'}"></td>
+            <td>
+                <form th:action="@{'/patient/appointments/cancel/' + ${app.id}}" method="post"
+                      th:if="${app.status != 'COMPLETED' and app.status != 'CANCELLED'}" class="inline-form">
+                    <button type="submit" class="button small">Отменить</button>
+                </form>
+                <span th:if="${app.status == 'COMPLETED'}">Завершено</span>
+                <span th:if="${app.status == 'CANCELLED'}">Отменено</span>
+            </td>
+        </tr>
+        </tbody>
+    </table>
 
-<a th:href="@{/}">На главную</a>
+    <a th:href="@{/}" class="button">На главную</a>
+</main>
 </body>
 </html>

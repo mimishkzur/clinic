@@ -1,34 +1,104 @@
+<!--<!DOCTYPE html>-->
+<!--<html xmlns:th="http://www.thymeleaf.org">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title>Профиль врача</title>-->
+<!--    <link rel="stylesheet" th:href="@{/css/style.css}">-->
+<!--</head>-->
+<!--<body>-->
+<!--<div th:insert="~{fragments/header_doctor :: header}"></div>-->
+
+<!--<main class="container">-->
+<!--    <h2>Редактирование профиля</h2>-->
+
+<!--    <form th:action="@{/doctor/profile}" th:object="${doctor}" method="post">-->
+<!--        <p>Email: <span th:text="*{user.email}"></span></p>-->
+<!--        <p>ФИО: <span th:text="*{user.fullName}"></span></p>-->
+<!--        <p>Телефон: <span th:text="*{user.phone}"></span></p>-->
+<!--        <p>Специализация: <span th:text="*{specialization}"></span></p>-->
+<!--        <p>Зарплата: <span th:text="*{salary}"></span></p>-->
+<!--        <label>Дата рождения:-->
+<!--            <input type="date" name="birthDate"-->
+<!--                   th:value="${doctor.birthDate != null ? #temporals.format(doctor.birthDate, 'yyyy-MM-dd') : ''}"/>-->
+<!--        </label>-->
+<!--        <label>Образование: <input type="text" th:field="*{education}"/></label>-->
+<!--        <label>Дата начала работы:-->
+<!--            <input type="date" name="workStartDate"-->
+<!--                   th:value="${doctor.workStartDate != null ? #temporals.format(doctor.workStartDate, 'yyyy-MM-dd') : ''}"/>-->
+<!--        </label>-->
+<!--        <p>Стаж: <span th:text="${doctor.experience} + ' лет'"></span></p>-->
+<!--        <label>О себе: <textarea th:field="*{description}"></textarea></label>-->
+
+<!--        <button type="submit">Сохранить</button>-->
+<!--    </form>-->
+
+<!--    <a th:href="@{/doctor/dashboard}" class="button">Назад</a>-->
+<!--</main>-->
+<!--</body>-->
+<!--</html>-->
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<div th:insert="~{fragments/header_doctor :: header}"></div>
 <head>
     <meta charset="UTF-8">
     <title>Профиль врача</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
-<h2>Редактирование профиля</h2>
+<div th:insert="~{fragments/header_doctor :: header}"></div>
 
-<form th:action="@{/doctor/profile}" th:object="${doctor}" method="post">
-    <p>Email: <span th:text="*{user.email}"></span></p>
-    <p>ФИО: <span th:text="*{user.fullName}"></span></p>
-    <p>Телефон: <span th:text="*{user.phone}"></span></p>
-    <p>Специализация: <span th:text="*{specialization}"></span></p>
-    <p>Зарплата: <span th:text="*{salary}"></span></p>
-    <label>Дата рождения:
-        <input type="date" name="birthDate"
-               th:value="${doctor.birthDate != null ? #temporals.format(doctor.birthDate, 'yyyy-MM-dd') : ''}"/>
-    </label><br>
-    <label>Образование: <input type="text" th:field="*{education}"/></label><br>
-    <label>Дата начала работы:
-        <input type="date" name="workStartDate"
-               th:value="${doctor.workStartDate != null ? #temporals.format(doctor.workStartDate, 'yyyy-MM-dd') : ''}"/>
-    </label><br>
-    <p>Стаж: <span th:text="${doctor.experience} + ' лет'"></span></p>
-    <label>О себе: <textarea th:field="*{description}"></textarea></label><br>
+<main class="container">
+    <h2>Редактирование профиля</h2>
 
-    <button type="submit">Сохранить</button>
-</form>
+    <form th:action="@{/doctor/profile}" th:object="${doctor}" method="post" enctype="multipart/form-data">
+        <!-- Блок с фото профиля -->
+        <div class="profile-photo-section">
+            <div th:if="${doctor.photoPath != null}">
+                <img th:src="@{'/uploads/' + ${doctor.photoPath}}" alt="Фото профиля" class="profile-photo">
+            </div>
+            <div class="form-group">
+                <label for="photo">Фото профиля:</label>
+                <input type="file" id="photo" name="photo" accept="image/*" class="form-input">
+            </div>
+        </div>
 
-<a th:href="@{/doctor/dashboard}">Назад</a>
+        <p>Email: <span th:text="*{user.email}"></span></p>
+        <p>ФИО: <span th:text="*{user.fullName}"></span></p>
+        <p>Телефон: <span th:text="*{user.phone}"></span></p>
+        <p>Специализация: <span th:text="*{specialization}"></span></p>
+        <p>Зарплата: <span th:text="*{salary}"></span></p>
+
+        <div class="form-group">
+            <label>Дата рождения:
+                <input type="date" name="birthDate"
+                       th:value="${doctor.birthDate != null ? #temporals.format(doctor.birthDate, 'yyyy-MM-dd') : ''}" class="form-input"/>
+            </label>
+        </div>
+
+        <div class="form-group">
+            <label>Образование:
+                <input type="text" th:field="*{education}" class="form-input"/>
+            </label>
+        </div>
+
+        <div class="form-group">
+            <label>Дата начала работы:
+                <input type="date" name="workStartDate"
+                       th:value="${doctor.workStartDate != null ? #temporals.format(doctor.workStartDate, 'yyyy-MM-dd') : ''}" class="form-input"/>
+            </label>
+        </div>
+
+        <p>Стаж: <span th:text="${doctor.experience} + ' лет'"></span></p>
+
+        <div class="form-group">
+            <label>О себе:
+                <textarea th:field="*{description}" class="form-textarea"></textarea>
+            </label>
+        </div>
+
+        <button type="submit" class="button">Сохранить</button>
+    </form>
+
+    <a th:href="@{/doctor/dashboard}" class="button">Назад</a>
+</main>
 </body>
 </html>

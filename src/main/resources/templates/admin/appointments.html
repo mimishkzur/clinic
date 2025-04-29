@@ -3,57 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <title>Добавить прием</title>
-    <link rel="stylesheet" th:href="@{/styles/style.css}">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
-<div th:insert="~{fragments/header_admin :: header}"></div>
 <body>
-<h1>Добавление приема для врача</h1>
+<div th:insert="~{fragments/header_admin :: header}"></div>
 
-<!-- Форма выбора врача -->
-<form th:action="@{/admin/appointments}" method="get">
-    <label>Выберите врача:
-        <select name="doctorEmail" onchange="this.form.submit()">
-            <option value="">-- выбрать --</option>
-            <option th:each="doc : ${doctors}"
-                    th:value="${doc.email}"
-                    th:text="|${doc.fullName} (${doc.specialization})|"
-                    th:selected="${doc.email == selectedDoctorEmail}">
-            </option>
-        </select>
-    </label>
-</form>
+<main class="container">
+    <h1>Добавление приема для врача</h1>
 
-<!-- Форма добавления приема -->
-<form th:action="@{/admin/appointments}" method="post" th:object="${appointment}" th:if="${selectedDoctorEmail != null}">
-    <input type="hidden" name="doctorEmail" th:value="${selectedDoctorEmail}" />
+    <section class="filter-section">
+        <form th:action="@{/admin/appointments}" method="get" class="filter-form">
+            <div class="form-group">
+                <label>Выберите врача:</label>
+                <select name="doctorEmail" onchange="this.form.submit()" class="form-input">
+                    <option value="">-- выбрать --</option>
+                    <option th:each="doc : ${doctors}"
+                            th:value="${doc.email}"
+                            th:text="|${doc.fullName} (${doc.specialization})|"
+                            th:selected="${doc.email == selectedDoctorEmail}">
+                    </option>
+                </select>
+            </div>
+        </form>
+    </section>
 
-    <label>Дата и время:
-        <input type="datetime-local" th:field="*{dateTime}" />
-    </label><br>
+    <section th:if="${selectedDoctorEmail != null}" class="appointment-form-section">
+        <form th:action="@{/admin/appointments}" method="post" th:object="${appointment}" class="admin-form">
+            <input type="hidden" name="doctorEmail" th:value="${selectedDoctorEmail}" />
 
-    <button type="submit">Добавить</button>
-</form>
+            <div class="form-group">
+                <label>Дата и время:</label>
+                <input type="datetime-local" th:field="*{dateTime}" class="form-input" />
+            </div>
 
-<!-- Существующие приемы врача -->
-<div th:if="${appointments != null}">
-    <h2>Существующие приёмы</h2>
-    <table>
-        <thead>
-        <tr>
-            <th>Дата и время</th>
-            <th>Статус</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="appt : ${appointments}">
-            <td th:text="${#temporals.format(appt.dateTime, 'yyyy-MM-dd HH:mm')}"></td>
-            <td th:text="${appt.status}"></td>
-        </tr>
-        </tbody>
-    </table>
-</div>
+            <button type="submit" class="button">Добавить</button>
+        </form>
+    </section>
 
-<h2>Вернуться</h2>
-<a th:href="@{/admin/users}">Назад к списку пользователей</a>
+    <section th:if="${appointments != null}" class="appointments-list">
+        <h2>Существующие приёмы</h2>
+        <table>
+            <thead>
+            <tr>
+                <th>Дата и время</th>
+                <th>Статус</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="appt : ${appointments}">
+                <td th:text="${#temporals.format(appt.dateTime, 'yyyy-MM-dd HH:mm')}"></td>
+                <td th:text="${appt.status}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <a th:href="@{/admin/users}" class="button">Назад к списку пользователей</a>
+</main>
 </body>
 </html>

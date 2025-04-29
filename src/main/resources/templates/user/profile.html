@@ -3,39 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <title>Ваш профиль</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
 <div th:insert="~{fragments/header :: header}"></div>
 
-<h2>Профиль пользователя</h2>
+<main class="container">
+    <h2>Профиль пользователя</h2>
 
-<div>
-    <p><strong>Имя:</strong> <span th:text="${user.fullName}"></span></p>
-    <p><strong>Телефон:</strong> <span th:text="${user.phone}"></span></p>
-    <p><strong>Полис ОМС:</strong> <span th:text="${user.omsPolicyNumber}"></span></p>
+    <div class="profile-info">
+        <p><strong>Имя:</strong> <span th:text="${user.fullName}"></span></p>
+        <p><strong>Телефон:</strong> <span th:text="${user.phone}"></span></p>
+        <p><strong>Полис ОМС:</strong> <span th:text="${user.omsPolicyNumber}"></span></p>
+    </div>
 
-    <!-- Список встреч -->
-    <h3>История посещений:</h3>
-    <table>
-        <thead>
-        <tr>
-            <th>Дата</th>
-            <th>Время</th>
-            <th>Доктор</th>
-            <th>Диагноз</th>
-            <th>Лечение</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="appointment : ${appointments}">
-            <td th:text="${#temporals.format(appointment.dateTime, 'dd.MM.yyyy')}"></td>
-            <td th:text="${#temporals.format(appointment.dateTime, 'HH:mm')}"></td>
-            <td th:text="${appointment.doctor.fullName}"></td>
-            <td th:text="${appointment.diagnosis}"></td>
-            <td th:text="${appointment.treatment}"></td>
-        </tr>
-        </tbody>
-    </table>
-</div>
+    <section>
+        <h3>История посещений:</h3>
+        <table>
+            <thead>
+            <tr>
+                <th>Дата</th>
+                <th>Время</th>
+                <th>Доктор</th>
+                <th>Диагноз</th>
+                <th>Лечение</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="appointment : ${appointments}">
+                <td th:text="${#temporals.format(appointment.dateTime, 'dd.MM.yyyy')}"></td>
+                <td th:text="${#temporals.format(appointment.dateTime, 'HH:mm')}"></td>
+                <td th:text="${appointment.doctor.fullName}"></td>
+                <td th:text="${appointment.diagnosis ?: '-'}"></td>
+                <td th:text="${appointment.treatment ?: '-'}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </section>
+</main>
 </body>
 </html>

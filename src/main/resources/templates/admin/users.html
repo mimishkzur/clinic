@@ -3,36 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <title>Управление пользователями</title>
-    <link rel="stylesheet" th:href="@{/styles/style.css}">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
-<!-- Заголовок -->
 <div th:insert="~{fragments/header_admin :: header}"></div>
 
-<main>
+<main class="container">
     <h1>Список пользователей</h1>
 
-    <!-- Кнопка добавить прием врачу -->
-    <a th:href="@{/admin/appointments}">
-        <button>Добавить прием врачу</button>
-    </a>
+    <div class="admin-actions">
+        <a th:href="@{/admin/appointments}" class="button">Добавить прием врачу</a>
+    </div>
 
-    <form th:action="@{/admin/users}" method="get" style="margin-bottom: 20px;">
-        <label for="email">Email:</label>
-        <input type="text" name="email" id="email" th:value="${email}"/>
+    <form th:action="@{/admin/users}" method="get" class="filter-form">
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="text" name="email" id="email" th:value="${email}" class="form-input"/>
+        </div>
 
-        <label for="role">Роль:</label>
-        <select name="role" id="role">
-            <option value="">Все</option>
-            <option th:each="r : ${roles}"
-                    th:value="${r}"
-                    th:text="${r}"
-                    th:selected="${role == r}"></option>
-        </select>
+        <div class="form-group">
+            <label for="role">Роль:</label>
+            <select name="role" id="role" class="form-input">
+                <option value="">Все</option>
+                <option th:each="r : ${roles}"
+                        th:value="${r}"
+                        th:text="${r}"
+                        th:selected="${role == r}"></option>
+            </select>
+        </div>
 
-        <button type="submit">Найти</button>
+        <button type="submit" class="button">Найти</button>
     </form>
-
 
     <table>
         <thead>
@@ -42,7 +43,7 @@
             <th>Телефон</th>
             <th>Роль</th>
             <th>Изменить роль</th>
-            <th>Редактировать врача</th> <!-- добавили заголовок для кнопки -->
+            <th>Редактировать врача</th>
         </tr>
         </thead>
         <tbody>
@@ -52,23 +53,21 @@
             <td th:text="${user.phone}"></td>
             <td th:text="${user.role}"></td>
 
-            <!-- Форма смены роли -->
             <td>
-                <form th:action="@{'/admin/users/' + ${user.email} + '/role'}" method="post">
-                    <select name="role">
+                <form th:action="@{'/admin/users/' + ${user.email} + '/role'}" method="post" class="inline-form">
+                    <select name="role" class="form-input small" th:disabled="${user.email == 'admin@clinic.com'}">
                         <option value="PATIENT" th:selected="${user.role == 'PATIENT'}">Пациент</option>
                         <option value="DOCTOR" th:selected="${user.role == 'DOCTOR'}">Врач</option>
                         <option value="ADMIN" th:selected="${user.role == 'ADMIN'}">Администратор</option>
                     </select>
-                    <button type="submit">Сохранить</button>
+                    <button type="submit" class="button small" th:disabled="${user.email == 'admin@clinic.com'}">Сохранить</button>
                 </form>
             </td>
 
-            <!-- Кнопка "Редактировать врача" -->
             <td>
                 <a th:if="${user.role == T(com.example.clinic.model.Role).DOCTOR}"
-                   th:href="@{'/admin/doctors/' + ${user.email} + '/edit'}">
-                    <button type="button">Редактировать врача</button>
+                   th:href="@{'/admin/doctors/' + ${user.email} + '/edit'}" class="button small">
+                    Редактировать врача
                 </a>
             </td>
         </tr>

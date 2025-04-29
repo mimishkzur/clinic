@@ -3,16 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <title>Запись к врачу</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
-<h1>Запись к врачу <span th:text="${doctor.fullName}"></span></h1>
-<form th:action="@{/appointments/book}" method="post">
-    <input type="hidden" name="doctorId" th:value="${doctor.id}"/>
+<div th:insert="~{fragments/header :: header}"></div>
 
-    <label>Выберите дату и время:</label>
-    <input type="datetime-local" name="dateTime" required/>
+<main class="container">
+    <h1>Запись к врачу <span th:text="${doctor.fullName}"></span></h1>
 
-    <button type="submit">Записаться</button>
-</form>
+    <form th:action="@{/appointments/book}" method="post" class="booking-form">
+        <input type="hidden" name="doctorId" th:value="${doctor.id}"/>
+
+        <div class="form-group">
+            <label>Выберите дату и время:</label>
+            <input type="datetime-local" name="dateTime" class="form-input" required/>
+        </div>
+
+        <button type="submit" class="button">Записаться</button>
+    </form>
+</main>
 </body>
 </html>

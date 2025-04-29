@@ -3,22 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <title>Запись приёма</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
-<div th:insert="~{fragments/header_doctor :: header}"></div>
 <body>
-<h1>Запись приёма</h1>
+<div th:insert="~{fragments/header_doctor :: header}"></div>
 
-<form th:action="@{/doctor/appointments/{id}(id=${appointment.id})}" method="post" th:object="${appointment}">
-    <p>Пациент: <span th:text="${appointment.user.fullName}"></span></p>
-    <p>Дата: <span th:text="${#temporals.format(appointment.dateTime, 'dd.MM.yyyy HH:mm')}"></span></p>
+<main class="container">
+    <h1>Запись приёма</h1>
 
-    <label>Диагноз: <input type="text" th:field="*{diagnosis}" /></label><br>
-    <label>Лечение: <input type="text" th:field="*{treatment}" /></label><br>
-    <label>Комментарий: <textarea th:field="*{notes}"></textarea></label><br>
+    <form th:action="@{/doctor/appointments/{id}(id=${appointment.id})}" method="post" th:object="${appointment}" class="appointment-form">
+        <div class="form-group">
+            <label>Пациент:</label>
+            <p th:text="${appointment.user.fullName}"></p>
+        </div>
 
-    <button type="submit">Сохранить</button>
-</form>
+        <div class="form-group">
+            <label>Дата:</label>
+            <p th:text="${#temporals.format(appointment.dateTime, 'dd.MM.yyyy HH:mm')}"></p>
+        </div>
 
-<a th:href="@{/doctor/appointments}">Назад</a>
+        <div class="form-group">
+            <label>Диагноз:</label>
+            <input type="text" th:field="*{diagnosis}" class="form-input"/>
+        </div>
+
+        <div class="form-group">
+            <label>Лечение:</label>
+            <input type="text" th:field="*{treatment}" class="form-input"/>
+        </div>
+
+        <div class="form-group">
+            <label>Комментарий:</label>
+            <textarea th:field="*{notes}" class="form-textarea"></textarea>
+        </div>
+
+        <button type="submit" class="button">Сохранить</button>
+    </form>
+
+    <a th:href="@{/doctor/appointments}" class="button">Назад</a>
+</main>
 </body>
 </html>

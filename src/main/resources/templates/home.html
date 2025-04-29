@@ -28,6 +28,7 @@
         <table>
             <thead>
             <tr>
+                <th>Фото</th>
                 <th>Имя</th>
                 <th>Специализация</th>
                 <th>Email</th>
@@ -36,6 +37,13 @@
             </thead>
             <tbody>
             <tr th:each="doctor : ${doctors}">
+                <td>
+                    <img th:if="${doctor.photoPath}"
+                         th:src="@{'/uploads/' + ${doctor.photoPath}}"
+                         alt="Фото врача"
+                         class="doctor-photo">
+                    <span th:unless="${doctor.photoPath}">Нет фото</span>
+                </td>
                 <td th:text="${doctor.fullName}"></td>
                 <td th:text="${doctor.specialization}"></td>
                 <td th:text="${doctor.email}"></td>

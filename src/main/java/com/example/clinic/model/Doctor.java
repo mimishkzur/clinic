@@ -25,6 +25,7 @@ public class Doctor {
     private String fullName;
     private String phone;
     private String specialization;
+    private String photoPath;
 
     private LocalDate birthDate;
     private String education;

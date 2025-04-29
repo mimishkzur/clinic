@@ -1,19 +1,12 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<head>
-    <meta charset="UTF-8">
-</head>
-<body>
-<div th:fragment="header">
-    <nav>
-        <a th:href="@{/doctor/dashboard}">Ваш кабинет</a> |
-        <a th:href="@{/doctor/profile}">Ваш профиль</a> |
-        <a th:href="@{/doctor/appointments}">Приёмы</a> |
+<div th:fragment="header"
+     xmlns:th="http://www.thymeleaf.org"
+     xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+    <nav class="navbar">
+        <a th:href="@{/doctor/dashboard}">Ваш кабинет</a>
+        <a th:href="@{/doctor/profile}">Ваш профиль</a>
+        <a th:href="@{/doctor/appointments}">Приёмы</a>
         <form th:action="@{/logout}" method="post" style="display:inline;">
-            <button type="submit">Выйти</button>
+            <button type="submit" class="logout-btn">Выйти</button>
         </form>
     </nav>
 </div>
-</body>
-</html>

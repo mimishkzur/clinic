@@ -3,13 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <title>Вход</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
-<h1>Вход</h1>
-<form th:action="@{/login}" method="post">
-    <label>Имя пользователя: <input type="text" name="username" required/></label><br/>
-    <label>Пароль: <input type="password" name="password" required/></label><br/>
-    <button type="submit">Войти</button>
-</form>
+<div th:insert="~{fragments/header :: header}"></div>
+
+<main class="container auth-container">
+    <h1>Вход</h1>
+
+    <form th:action="@{/login}" method="post" class="auth-form">
+        <div class="form-group">
+            <label>Имя пользователя:</label>
+            <input type="text" name="username" class="form-input" required/>
+        </div>
+
+        <div class="form-group">
+            <label>Пароль:</label>
+            <input type="password" name="password" class="form-input" required/>
+        </div>
+
+        <button type="submit" class="button">Войти</button>
+    </form>
+
+    <p>Нет аккаунта? <a th:href="@{/register}" class="link">Зарегистрироваться</a></p>
+</main>
 </body>
 </html>

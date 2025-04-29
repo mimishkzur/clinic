@@ -3,39 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <title>Ваши приемы</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
-<div th:insert="~{fragments/header_doctor :: header}"></div>
 <body>
-<h1>Ваши приемы</h1>
+<div th:insert="~{fragments/header_doctor :: header}"></div>
 
-<h2>Сегодняшние</h2>
-<ul>
-    <li th:each="app : ${todayAppointments}">
-        <span th:text="${#temporals.format(app.dateTime, 'HH:mm')}"></span> —
-        <span th:text="${app.user != null ? app.user.fullName : 'Не назначен'}"></span>
-        <a th:href="@{/doctor/appointments/{id}/edit(id=${app.id})}">Редактировать</a>
-    </li>
-</ul>
+<main class="container">
+    <h1>Ваши приемы</h1>
 
-<h2>Будущие</h2>
-<ul>
-    <li th:each="app : ${futureAppointments}">
-        <span th:text="${#temporals.format(app.dateTime, 'dd.MM.yyyy HH:mm')}"></span> —
-        <span th:text="${app.user != null ? app.user.fullName : 'Свободно'}"></span>
-    </li>
-</ul>
+    <section>
+        <h2>Сегодняшние</h2>
+        <ul class="appointment-list">
+            <li th:each="app : ${todayAppointments}">
+                <span th:text="${#temporals.format(app.dateTime, 'HH:mm')}"></span> —
+                <span th:text="${app.user != null ? app.user.fullName : 'Не назначен'}"></span>
+                <a th:href="@{/doctor/appointments/{id}/edit(id=${app.id})}" class="button small">Редактировать</a>
+            </li>
+        </ul>
+    </section>
 
-<h2>Прошедшие</h2>
-<ul>
-    <li th:each="app : ${pastAppointments}">
-        <span th:text="${#temporals.format(app.dateTime, 'dd.MM.yyyy HH:mm')}"></span> —
-        <span th:text="${app.user != null ? app.user.fullName : 'Не назначен'}"></span>
-        <br/>
-        Диагноз: <span th:text="${app.diagnosis}"></span>
-        <a th:href="@{/doctor/appointments/{id}/edit(id=${app.id})}">Редактировать</a>
-    </li>
-</ul>
+    <section>
+        <h2>Будущие</h2>
+        <ul class="appointment-list">
+            <li th:each="app : ${futureAppointments}">
+                <span th:text="${#temporals.format(app.dateTime, 'dd.MM.yyyy HH:mm')}"></span> —
+                <span th:text="${app.user != null ? app.user.fullName : 'Свободно'}"></span>
+            </li>
+        </ul>
+    </section>
 
-<a th:href="@{/doctor/dashboard}">Назад</a>
+    <section>
+        <h2>Прошедшие</h2>
+        <ul class="appointment-list">
+            <li th:each="app : ${pastAppointments}">
+                <span th:text="${#temporals.format(app.dateTime, 'dd.MM.yyyy HH:mm')}"></span>
+                <span th:text="${app.user != null ? app.user.fullName : 'Не назначен'}"></span>
+                <div th:if="${app.diagnosis}">Диагноз: <span th:text="${app.diagnosis}"></span></div>
+                <a th:href="@{/doctor/appointments/{id}/edit(id=${app.id})}" class="button small">Редактировать</a>
+            </li>
+        </ul>
+    </section>
+
+    <a th:href="@{/doctor/dashboard}" class="button">Назад</a>
+</main>
 </body>
 </html>

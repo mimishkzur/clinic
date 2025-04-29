@@ -1,18 +1,46 @@
-<form th:action="@{/register}" th:object="${user}" method="post" xmlns:th="http://www.w3.org/1999/xhtml">
-    <label>Email:</label>
-    <input type="email" th:field="*{email}" required/><br>
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Регистрация</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div th:insert="~{fragments/header :: header}"></div>
 
-    <label>Полное имя:</label>
-    <input type="text" th:field="*{fullName}" required/><br>
+<main class="container auth-container">
+    <h1>Регистрация</h1>
 
-    <label>Телефон:</label>
-    <input type="text" th:field="*{phone}" required/><br>
+    <form th:action="@{/register}" th:object="${user}" method="post" class="auth-form">
+        <div class="form-group">
+            <label>Email:</label>
+            <input type="email" th:field="*{email}" class="form-input" required/>
+        </div>
 
-    <label>Номер полиса ОМС:</label>
-    <input type="text" th:field="*{omsPolicyNumber}" required/><br>
+        <div class="form-group">
+            <label>Полное имя:</label>
+            <input type="text" th:field="*{fullName}" class="form-input" required/>
+        </div>
 
-    <label>Пароль:</label>
-    <input type="password" th:field="*{password}" required/><br>
+        <div class="form-group">
+            <label>Телефон:</label>
+            <input type="text" th:field="*{phone}" class="form-input" required/>
+        </div>
 
-    <button type="submit">Зарегистрироваться</button>
-</form>
+        <div class="form-group">
+            <label>Номер полиса ОМС:</label>
+            <input type="text" th:field="*{omsPolicyNumber}" class="form-input" required/>
+        </div>
+
+        <div class="form-group">
+            <label>Пароль:</label>
+            <input type="password" th:field="*{password}" class="form-input" required/>
+        </div>
+
+        <button type="submit" class="button">Зарегистрироваться</button>
+    </form>
+
+    <p>Уже есть аккаунт? <a th:href="@{/login}" class="link">Войти</a></p>
+</main>
+</body>
+</html>
