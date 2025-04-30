@@ -2,10 +2,12 @@
      xmlns:th="http://www.thymeleaf.org"
      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     <nav class="navbar">
-        <a th:href="@{/admin/users}">Список пользователей</a>
-        <a th:href="@{/admin/statistics}">Статистическая информация</a>
-        <form th:action="@{/logout}" method="post" style="display:inline;">
-            <button type="submit" class="logout-btn">Выйти</button>
-        </form>
+        <span>
+            <a th:href="@{/admin/users}">Список пользователей</a>
+            <a th:href="@{/admin/statistics}">Статистическая информация</a>
+            <form th:action="@{/logout}" method="post" style="display:inline;">
+                <button type="submit" class="logout-btn">Выйти</button>
+            </form>
+        </span>
     </nav>
 </div>

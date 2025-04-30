@@ -313,3 +313,32 @@ nav.navbar form {
     object-fit: cover;
     border: 2px solid #00796b;
 }
+
+nav.navbar {
+    height: 60px; /* или другая нужная тебе высота */
+    box-sizing: border-box;
+}
+
+nav.navbar a,
+nav.navbar form,
+nav.navbar .logout-btn {
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.logout-btn {
+    padding: 0;
+    margin: 0;
+    background: none;
+    border: none;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: inherit;
+    font-family: inherit;
+    line-height: 1; /* ← важно */
+    height: 100%;   /* ← ключ к выравниванию */
+    display: flex;
+    align-items: center;
+}
