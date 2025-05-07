@@ -30,4 +30,8 @@ public class MainController {
         return "about";
     }
 
+    @GetMapping("/author")
+    public String author() {
+        return "author";
+    }
 }

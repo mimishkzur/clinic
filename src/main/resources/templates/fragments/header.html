@@ -4,6 +4,7 @@
     <nav class="navbar">
         <a th:href="@{/}">Главная</a>
         <a th:href="@{/about}">О нас</a>
+        <a th:href="@{/author}">Об авторе</a>
 
         <span sec:authorize="isAnonymous()">
             <a th:href="@{/login}">Войти</a>
