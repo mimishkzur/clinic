@@ -143,7 +143,7 @@ table { margin: 1rem 0 2rem 0; }
 /* Контейнеры */
 .auth-container,
 .admin-form {
-    max-width: 600px;
+    max-width: 1000px;
     margin: 2rem auto;
 }
 .auth-form,
@@ -175,4 +175,25 @@ table { margin: 1rem 0 2rem 0; }
 nav a,
 nav .logout-btn {
     color: white !important;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table th,
+table td {
+    padding: 0.75rem;
+    border: 1px solid #ccc;
+    text-align: left;
+}
+
+table th {
+    background-color: #e0f2f1;
+    color: #004d40;
+}
+.login-page .auth-container,
+.register-page .auth-container {
+    max-width: 500px;
 }
