@@ -71,6 +71,22 @@ public class AdminController {
         return "redirect:/admin/users";
     }
 
+//    @GetMapping("/appointments")
+//    public String showAppointmentsForm(@RequestParam(required = false) String doctorEmail, Model model) {
+//        List<Doctor> doctors = doctorRepository.findAll();
+//        model.addAttribute("doctors", doctors);
+//        model.addAttribute("selectedDoctorEmail", doctorEmail);
+//        model.addAttribute("appointment", new Appointment());
+//
+//        if (doctorEmail != null && !doctorEmail.isEmpty()) {
+//            doctorRepository.findByEmail(doctorEmail).ifPresent(doctor -> {
+//                List<Appointment> appointments = appointmentRepository.findByDoctor(doctor);
+//                model.addAttribute("appointments", appointments);
+//            });
+//        }
+//
+//        return "admin/appointments";
+//    }
     @GetMapping("/appointments")
     public String showAppointmentsForm(@RequestParam(required = false) String doctorEmail, Model model) {
         List<Doctor> doctors = doctorRepository.findAll();
@@ -81,6 +97,10 @@ public class AdminController {
         if (doctorEmail != null && !doctorEmail.isEmpty()) {
             doctorRepository.findByEmail(doctorEmail).ifPresent(doctor -> {
                 List<Appointment> appointments = appointmentRepository.findByDoctor(doctor);
+
+                // Сортируем приёмы в обратном порядке (новые сверху)
+                appointments.sort((a1, a2) -> a2.getDateTime().compareTo(a1.getDateTime()));
+
                 model.addAttribute("appointments", appointments);
             });
         }
