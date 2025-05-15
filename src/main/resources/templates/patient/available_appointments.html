@@ -34,7 +34,7 @@
             <th>Специализация</th>
             <th>Действие</th>
         </tr>
-        <tr th:each="app : ${appointments}">
+        <tr th:each="app : ${appointments}" th:if="${app.dateTime.isAfter(T(java.time.LocalDateTime).now())}">
             <td th:text="${#temporals.format(app.dateTime, 'dd.MM.yyyy')}"></td>
             <td th:text="${#temporals.format(app.dateTime, 'HH:mm')}"></td>
             <td th:text="${app.doctor.fullName}"></td>
