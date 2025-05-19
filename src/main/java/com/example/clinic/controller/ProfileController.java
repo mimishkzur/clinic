@@ -1,3 +1,5 @@
+// профиль пользователя
+
 package com.example.clinic.controller;
 
 import com.example.clinic.model.Appointment;
@@ -9,7 +11,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-
 import java.util.List;
 
 @Controller
@@ -21,6 +22,7 @@ public class ProfileController {
     @Autowired
     private AppointmentRepository appointmentRepository;
 
+    // просмотр собственного профиля
     @GetMapping("/profile")
     public String viewProfile(Model model) {
 

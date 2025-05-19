@@ -1,3 +1,5 @@
+// администрирование клиники
+
 package com.example.clinic.controller;
 
 import com.example.clinic.model.*;
@@ -8,7 +10,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
@@ -24,6 +25,7 @@ public class AdminController {
     private final DoctorRepository doctorRepository;
     private final AppointmentRepository appointmentRepository;
 
+    // просмотр списка пользователей
     @GetMapping("/users")
     public String viewAllUsers(@RequestParam(required = false) String email,
                                @RequestParam(required = false) Role role,
@@ -47,6 +49,7 @@ public class AdminController {
         return "admin/users";
     }
 
+    // изменение роли пользователя
     @PostMapping("/users/{email}/role")
     public String changeUserRole(@PathVariable String email, @RequestParam Role role) {
         userRepository.findByEmail(email).ifPresent(user -> {
@@ -54,15 +57,13 @@ public class AdminController {
             userRepository.save(user);
 
             if (role == Role.DOCTOR) {
-                // Проверяем, есть ли уже такой врач
                 doctorRepository.findByEmail(email).orElseGet(() -> {
-                    // Создаем нового врача на основе информации из User
                     Doctor doctor = new Doctor();
                     doctor.setEmail(user.getEmail());
                     doctor.setFullName(user.getFullName());
                     doctor.setPhone(user.getPhone());
                     doctor.setSpecialization("Не указана");
-                    doctor.setSalary(0); // Можно задать дефолт
+                    doctor.setSalary(0);
                     doctorRepository.save(doctor);
                     return doctor;
                 });
@@ -71,22 +72,7 @@ public class AdminController {
         return "redirect:/admin/users";
     }
 
-//    @GetMapping("/appointments")
-//    public String showAppointmentsForm(@RequestParam(required = false) String doctorEmail, Model model) {
-//        List<Doctor> doctors = doctorRepository.findAll();
-//        model.addAttribute("doctors", doctors);
-//        model.addAttribute("selectedDoctorEmail", doctorEmail);
-//        model.addAttribute("appointment", new Appointment());
-//
-//        if (doctorEmail != null && !doctorEmail.isEmpty()) {
-//            doctorRepository.findByEmail(doctorEmail).ifPresent(doctor -> {
-//                List<Appointment> appointments = appointmentRepository.findByDoctor(doctor);
-//                model.addAttribute("appointments", appointments);
-//            });
-//        }
-//
-//        return "admin/appointments";
-//    }
+    // просмотр и фильтрация записей
     @GetMapping("/appointments")
     public String showAppointmentsForm(@RequestParam(required = false) String doctorEmail, Model model) {
         List<Doctor> doctors = doctorRepository.findAll();
@@ -98,7 +84,6 @@ public class AdminController {
             doctorRepository.findByEmail(doctorEmail).ifPresent(doctor -> {
                 List<Appointment> appointments = appointmentRepository.findByDoctor(doctor);
 
-                // Сортируем приёмы в обратном порядке (новые сверху)
                 appointments.sort((a1, a2) -> a2.getDateTime().compareTo(a1.getDateTime()));
 
                 model.addAttribute("appointments", appointments);
@@ -108,18 +93,20 @@ public class AdminController {
         return "admin/appointments";
     }
 
+    // добавление новой записи
     @PostMapping("/appointments")
     public String addAppointment(@ModelAttribute Appointment appointment,
                                  @RequestParam String doctorEmail) {
         doctorRepository.findByEmail(doctorEmail).ifPresent(doctor -> {
             appointment.setDoctor(doctor);
             appointment.setStatus(AppointmentStatus.AVAILABLE);
-            appointment.setUser(null); // Пока без пациента
+            appointment.setUser(null);
             appointmentRepository.save(appointment);
         });
         return "redirect:/admin/appointments?doctorEmail=" + doctorEmail;
     }
 
+    // редактирование информации о враче (форма редактирования)
     @GetMapping("/doctors/{email}/edit")
     public String editDoctor(@PathVariable String email, Model model) {
         Doctor doctor = doctorRepository.findByEmail(email)
@@ -128,6 +115,7 @@ public class AdminController {
         return "admin/edit-doctor";
     }
 
+    // редактирование информации о враче (сохранение изменений)
     @PostMapping("/doctors/{email}/edit")
     public String updateDoctor(@PathVariable String email,
                                @ModelAttribute Doctor updatedDoctor) {
@@ -140,11 +128,12 @@ public class AdminController {
         return "redirect:/admin/users";
     }
 
+    // статистика
     @GetMapping("/statistics")
     public String statistics(Model model) {
         List<Appointment> appointments = appointmentRepository.findAll();
 
-        // Группировка по датам
+        // группировка по датам
         Map<LocalDate, Long> appointmentsPerDay = appointments.stream()
                 .collect(Collectors.groupingBy(
                         a -> a.getDateTime().toLocalDate(),
@@ -152,14 +141,14 @@ public class AdminController {
                         Collectors.counting()
                 ));
 
-        // Группировка по врачам
+        // группировка по врачам
         Map<String, Long> appointmentsPerDoctor = appointments.stream()
                 .collect(Collectors.groupingBy(
                         a -> a.getDoctor().getFullName(),
                         Collectors.counting()
                 ));
 
-        // Статусы
+        // группировка по статусам приемов
         Map<String, Long> statusCounts = appointments.stream()
                 .collect(Collectors.groupingBy(
                         a -> a.getStatus().toString(),

@@ -1,3 +1,5 @@
+// функционал пациента
+
 package com.example.clinic.controller;
 
 import com.example.clinic.model.Appointment;
@@ -9,7 +11,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
 import java.security.Principal;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -22,17 +23,11 @@ public class PatientController {
     private final AppointmentRepository appointmentRepository;
     private final UserRepository userRepository;
 
-//    @GetMapping("/appointments/available")
-//    public String viewAvailableAppointments(Model model) {
-//        List<Appointment> availableAppointments = appointmentRepository.findByUserIsNullOrderByDateTimeAsc();
-//        model.addAttribute("appointments", availableAppointments);
-//        return "patient/available_appointments";
-//    }
+    // просмотр всех доступных записей
     @GetMapping("/appointments/available")
     public String viewAvailableAppointments(@RequestParam(required = false) String specialization, Model model) {
         List<Appointment> availableAppointments = appointmentRepository.findByUserIsNullOrderByDateTimeAsc();
 
-        // Получаем список специализаций всех врачей
         List<String> specializations = availableAppointments.stream()
                 .map(a -> a.getDoctor().getSpecialization())
                 .distinct()
@@ -52,6 +47,7 @@ public class PatientController {
         return "patient/available_appointments";
     }
 
+    // запись на прием
     @PostMapping("/appointments/book/{id}")
     public String bookAppointment(@PathVariable Long id, Principal principal) {
         Appointment appointment = appointmentRepository.findById(id).orElseThrow();
@@ -63,21 +59,13 @@ public class PatientController {
         return "redirect:/patient/my-appointments";
     }
 
-//    @GetMapping("/my-appointments")
-//    public String myAppointments(Model model, Principal principal) {
-//        String email = principal.getName();
-//        User user = userRepository.findByEmail(email).orElseThrow();
-//        List<Appointment> myAppointments = appointmentRepository.findByUser(user);
-//        model.addAttribute("appointments", myAppointments);
-//        return "patient/my_appointments";
-//    }
+    // просмотр собственных записей
     @GetMapping("/my-appointments")
     public String myAppointments(@RequestParam(required = false) String specialization, Model model, Principal principal) {
         String email = principal.getName();
         User user = userRepository.findByEmail(email).orElseThrow();
         List<Appointment> myAppointments = appointmentRepository.findByUser(user);
 
-        // Получаем список специализаций врача из моих приёмов
         List<String> specializations = myAppointments.stream()
                 .map(a -> a.getDoctor().getSpecialization())
                 .distinct()
@@ -97,6 +85,7 @@ public class PatientController {
         return "patient/my_appointments";
     }
 
+    // отмена записи
     @PostMapping("/appointments/cancel/{id}")
     public String cancelAppointment(@PathVariable Long id, Principal principal) {
         Appointment appointment = appointmentRepository.findById(id).orElseThrow();

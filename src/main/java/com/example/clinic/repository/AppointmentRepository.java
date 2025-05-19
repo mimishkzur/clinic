@@ -5,8 +5,6 @@ import com.example.clinic.model.Doctor;
 import com.example.clinic.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
@@ -14,5 +12,4 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
     List<Appointment> findByUser(User patient);
     List<Appointment> findByDoctor(Doctor doctor);
     List<Appointment> findByUserIsNullOrderByDateTimeAsc();
-    List<Appointment> findByDoctor_SpecializationAndUserIsNullAndDateTimeAfter(String specialization, LocalDateTime dateTime);
 }

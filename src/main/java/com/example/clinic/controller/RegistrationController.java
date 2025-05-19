@@ -1,3 +1,5 @@
+// регистрация и аутентификация пользователей
+
 package com.example.clinic.controller;
 
 import com.example.clinic.model.Role;
@@ -24,12 +26,14 @@ public class RegistrationController {
         this.passwordEncoder = passwordEncoder;
     }
 
+    // отображение формы регистрации
     @GetMapping("/register")
     public String showRegistrationForm(Model model) {
         model.addAttribute("user", new User());
         return "auth/register";
     }
 
+    // обработка регистрации
     @PostMapping("/register")
     public String registerUser(@ModelAttribute("user") User user, BindingResult result, Model model) {
         if (userRepository.findByEmail(user.getEmail()).isPresent()) {
@@ -45,11 +49,13 @@ public class RegistrationController {
         return "redirect:/login";
     }
 
+    // отображение формы входа
     @GetMapping("/login")
     public String showLoginPage() {
         return "auth/login";
     }
 
+    // обработка выхода из аккаунта
     @GetMapping("/logout")
     public String showHomePage() {
         return "home";

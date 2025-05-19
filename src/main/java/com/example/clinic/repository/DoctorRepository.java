@@ -12,7 +12,4 @@ import java.util.Optional;
 public interface DoctorRepository extends JpaRepository<Doctor, Long> {
     List<Doctor> findBySpecialization(String specialization);
     Optional<Doctor> findByEmail(String email);
-
-    @Query("SELECT DISTINCT d.specialization FROM Doctor d")
-    List<String> findDistinctSpecializations();
 }

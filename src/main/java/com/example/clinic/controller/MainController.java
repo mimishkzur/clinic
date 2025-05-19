@@ -1,12 +1,12 @@
+// основной контроллер
+
 package com.example.clinic.controller;
 
 import com.example.clinic.model.Doctor;
 import com.example.clinic.repository.DoctorRepository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-
 import java.util.List;
 
 @Controller
@@ -18,6 +18,7 @@ public class MainController {
         this.doctorRepository = doctorRepository;
     }
 
+    // главная страница
     @GetMapping("/")
     public String home(Model model) {
         List<Doctor> doctors = doctorRepository.findAll();
@@ -25,11 +26,13 @@ public class MainController {
         return "home";
     }
 
+    // информация о клинике
     @GetMapping("/about")
     public String about() {
         return "about";
     }
 
+    // информация об авторе
     @GetMapping("/author")
     public String author() {
         return "author";

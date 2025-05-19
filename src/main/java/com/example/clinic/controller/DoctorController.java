@@ -1,3 +1,5 @@
+// функционал врача
+
 package com.example.clinic.controller;
 
 import com.example.clinic.model.Appointment;
@@ -13,8 +15,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -33,14 +33,17 @@ public class DoctorController {
     private final DoctorRepository doctorRepository;
     private final AppointmentRepository appointmentRepository;
 
+    // загрузка пути для сохранения файлов
     @Value("${upload.path}")
     private String uploadPath;
 
+    // главная страница врача
     @GetMapping("/dashboard")
     public String dashboard() {
         return "doctor/dashboard";
     }
 
+    // профиль врача
     @GetMapping("/profile")
     public String profile(Model model, @AuthenticationPrincipal UserDetails userDetails) {
         Doctor doctor = doctorRepository.findByEmail(userDetails.getUsername()).orElse(new Doctor());
@@ -48,19 +51,7 @@ public class DoctorController {
         return "doctor/profile";
     }
 
-//    @PostMapping("/profile")
-//    public String updateProfile(@ModelAttribute Doctor formDoctor,
-//                                @AuthenticationPrincipal UserDetails userDetails) {
-//        Doctor doctor = doctorRepository.findByEmail(userDetails.getUsername()).orElse(null);
-//        if (doctor != null) {
-//            doctor.setBirthDate(formDoctor.getBirthDate());
-//            doctor.setEducation(formDoctor.getEducation());
-//            doctor.setWorkStartDate(formDoctor.getWorkStartDate());
-//            doctor.setDescription(formDoctor.getDescription());
-//            doctorRepository.save(doctor);
-//        }
-//        return "redirect:/doctor/profile";
-//    }
+    // обновление информации в профиле врача
     @PostMapping("/profile")
     public String updateProfile(@ModelAttribute Doctor formDoctor,
                                 @RequestParam("photo") MultipartFile photo,
@@ -72,9 +63,7 @@ public class DoctorController {
             doctor.setWorkStartDate(formDoctor.getWorkStartDate());
             doctor.setDescription(formDoctor.getDescription());
 
-            // Обработка загрузки фото
             if (!photo.isEmpty()) {
-                // Путь к папке "uploads" относительно директории запуска
                 Path uploadDir = Paths.get(System.getProperty("user.dir"), uploadPath);
 
                 if (!Files.exists(uploadDir)) {
@@ -92,12 +81,12 @@ public class DoctorController {
                 doctor.setPhotoPath(resultFilename);
             }
 
-
             doctorRepository.save(doctor);
         }
         return "redirect:/doctor/profile";
     }
 
+    // просмотр записей
     @GetMapping("/appointments")
     public String viewAppointments(Model model, Principal principal) {
         String email = principal.getName();
@@ -128,12 +117,12 @@ public class DoctorController {
         return "doctor/appointments";
     }
 
+    // редактирование записи
     @GetMapping("/appointments/{id}/edit")
     public String editAppointment(@PathVariable Long id, Model model, Principal principal) {
         Appointment appointment = appointmentRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Приём не найден"));
 
-        // Проверка: врач имеет доступ только к своим приёмам
         Doctor doctor = doctorRepository.findByEmail(principal.getName())
                 .orElseThrow(() -> new RuntimeException("Доктор не найден"));
 
@@ -145,6 +134,7 @@ public class DoctorController {
         return "doctor/appointment_form";
     }
 
+    // сохранение изменений редактирования записи
     @PostMapping("/appointments/{id}")
     public String updateAppointment(@PathVariable Long id,
                                     @ModelAttribute Appointment formAppointment,
@@ -152,7 +142,6 @@ public class DoctorController {
         Appointment appointment = appointmentRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Приём не найден"));
 
-        // Проверка, что врач сохраняет только свои приёмы
         Doctor doctor = doctorRepository.findByEmail(principal.getName())
                 .orElseThrow(() -> new RuntimeException("Доктор не найден"));
 
@@ -168,6 +157,5 @@ public class DoctorController {
 
         return "redirect:/doctor/appointments";
     }
-
 
 }
