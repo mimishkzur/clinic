@@ -3,32 +3,41 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
-    <title>Об авторе"</title>
+    <title>Об авторе</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
-<!-- Вставляем шапку (как в home.html) -->
 <div th:insert="~{fragments/header :: header}"></div>
 
-<main>
+<main class="container">
     <h1>Об авторе</h1>
 
-    <!-- Добавляем нужную информацию -->
     <section>
-        <h2>Информация об авторе</h2>
-        <p>Зюряев Михаил Дмитриевич</p>
+        <h2>Личная информация</h2>
+        <p><strong>ФИО:</strong> Зюряев Михаил Дмитриевич</p>
+        <p><strong>Группа / Учебное заведение:</strong> ТРПО23-4, Финансовый университет при правительстве Российской Федерации</p>
     </section>
 
-<!--    <section>-->
-<!--        <h2>Наши врачи</h2>-->
-<!--        <p>У нас работают высококвалифицированные специалисты с многолетним опытом.</p>-->
-<!--    </section>-->
+    <section>
+        <h2>Контактные данные</h2>
+        <p><strong>Адрес:</strong> 4-й Вешняковский пр., 4, стр. 3</p>
+        <p><strong>Телефон:</strong> +7 (967) 043-08-47</p>
+        <p><strong>Email:</strong> zyuryaevm@yandex.ru</p>
+        <p><strong>GitHub:</strong> <a href="https://github.com/mimishkzur" target="_blank">github.com</a></p>
+    </section>
 
     <section>
-        <h2>Контакты</h2>
-        <p>Адрес: 4-й Вешняковский пр., 4, стр. 3</p>
-        <p>Телефон: +7 (967) 043-08-47</p>
-        <p>Email: zyuryaevm@yandex.ru</p>
+        <h2>Опыт работы с используемыми технологиями</h2>
+        <p>
+            В процессе создания данного проекта были использованы Java, Spring Boot, Spring Security, Thymeleaf и HTML/CSS.
+            Ранее не имел опыт разработки веб-приложений на Spring.
+        </p>
+    </section>
+
+    <section>
+        <h2>Сроки работы над проектом</h2>
+        <p><strong>Начало:</strong> март 2025</p>
+        <p><strong>Завершение:</strong> май 2025</p>
     </section>
 </main>
 </body>

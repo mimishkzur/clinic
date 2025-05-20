@@ -55,12 +55,12 @@
 
             <td>
                 <form th:action="@{'/admin/users/' + ${user.email} + '/role'}" method="post" class="inline-form">
-                    <select name="role" class="form-input small" th:disabled="${user.email == 'admin@clinic.com'}">
+                    <select name="role" class="form-input small" th:disabled="${user.email == 'admin@ya.ru'}">
                         <option value="PATIENT" th:selected="${user.role == 'PATIENT'}">Пациент</option>
                         <option value="DOCTOR" th:selected="${user.role == 'DOCTOR'}">Врач</option>
                         <option value="ADMIN" th:selected="${user.role == 'ADMIN'}">Администратор</option>
                     </select>
-                    <button type="submit" class="button small" th:disabled="${user.email == 'admin@clinic.com'}">Сохранить</button>
+                    <button type="submit" class="button small" th:disabled="${user.email == 'admin@ya.ru'}">Сохранить</button>
                 </form>
             </td>
 

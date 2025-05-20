@@ -1,3 +1,5 @@
+// инициализация данных
+
 package com.example.clinic;
 
 import com.example.clinic.model.Role;
@@ -20,12 +22,12 @@ public class DataInitializer implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        String adminEmail = "admin@clinic.com";
+        String adminEmail = "admin@ya.ru";
 
         if (userRepository.findByEmail(adminEmail).isEmpty()) {
             User admin = new User();
             admin.setEmail(adminEmail);
-            admin.setPassword(passwordEncoder.encode("admin123"));
+            admin.setPassword(passwordEncoder.encode("admin"));
             admin.setFullName("Администратор");
             admin.setRole(Role.ADMIN);
 
