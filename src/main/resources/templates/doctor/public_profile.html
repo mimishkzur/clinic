@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${doctor.fullName} + ' - Профиль врача'">Профиль врача</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div th:insert="~{fragments/header :: header}"></div>
+
+<main class="container">
+    <h2 th:text="${doctor.fullName}">ФИО врача</h2>
+
+    <div class="doctor-profile">
+        <!-- Блок с фото профиля -->
+        <div class="profile-photo-section">
+            <div th:if="${doctor.photoPath != null}">
+                <img th:src="@{'/uploads/' + ${doctor.photoPath}}"
+                     alt="Фото профиля"
+                     style="max-width: 200px; height: auto; border-radius: 8px;"
+                     onclick="window.open(this.src, '_blank')">
+            </div>
+        </div>
+
+        <div class="doctor-info">
+            <p><strong>Специализация:</strong> <span th:text="${doctor.specialization}"></span></p>
+            <p><strong>Стаж работы:</strong> <span th:text="${doctor.experience} + ' лет'"></span></p>
+            <p><strong>Образование:</strong> <span th:text="${doctor.education}"></span></p>
+            <p><strong>О себе:</strong></p>
+            <p th:text="${doctor.description}"></p>
+            <p><strong>Контактный телефон:</strong> <span th:text="${doctor.phone}"></span></p>
+        </div>
+    </div>
+
+    <a th:href="@{/}" class="button">Назад к списку врачей</a>
+</main>
+</body>
+</html>

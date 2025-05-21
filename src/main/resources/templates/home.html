@@ -1,3 +1,78 @@
+<!--<!DOCTYPE html>-->
+<!--<html xmlns:th="http://www.thymeleaf.org"-->
+<!--      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title>Главная | Поликлиника "Здоровье"</title>-->
+<!--    <link rel="stylesheet" th:href="@{/css/style.css}">-->
+<!--</head>-->
+<!--<body>-->
+
+<!--<div th:insert="~{fragments/header :: header}"></div>-->
+
+<!--<main class="container">-->
+<!--    <h1>Добро пожаловать в поликлинику "Здоровье"</h1>-->
+<!--    <p>Мы предлагаем качественное медицинское обслуживание для всей семьи.</p>-->
+
+<!--    <section class="services">-->
+<!--        <h2>Наши услуги</h2>-->
+<!--        <ul class="two-columns">-->
+<!--            <li>Терапия</li>-->
+<!--            <li>Хирургия</li>-->
+<!--            <li>Педиатрия</li>-->
+<!--            <li>Гинекология</li>-->
+<!--            <li>Неврология</li>-->
+<!--            <li>Кардиология</li>-->
+<!--            <li>Офтальмология</li>-->
+<!--            <li>Оториноларингология (ЛОР)</li>-->
+<!--            <li>Урология</li>-->
+<!--            <li>Гастроэнтерология</li>-->
+<!--            <li>Эндокриннология</li>-->
+<!--            <li>Дерматология</li>-->
+<!--            <li>Физиотерапия</li>-->
+<!--            <li>Диагностика (УЗИ, ЭКГ, рентген)</li>-->
+<!--            <li>Вакцинация</li>-->
+<!--            <li>Медицинские справки</li>-->
+<!--        </ul>-->
+<!--    </section>-->
+
+<!--    <section>-->
+<!--        <h2>Наши врачи</h2>-->
+<!--        <table>-->
+<!--            <thead>-->
+<!--            <tr>-->
+<!--                <th>Фото</th>-->
+<!--                <th>Имя</th>-->
+<!--                <th>Специализация</th>-->
+<!--                <th>Email</th>-->
+<!--                <th>Телефон</th>-->
+<!--            </tr>-->
+<!--            </thead>-->
+<!--            <tbody>-->
+<!--            <tr th:each="doctor : ${doctors}">-->
+<!--                <td>-->
+<!--                    <img th:if="${doctor.photoPath}"-->
+<!--                         th:src="@{'/uploads/' + ${doctor.photoPath}}"-->
+<!--                         alt="Фото врача"-->
+<!--                         class="doctor-photo">-->
+<!--                    <span th:unless="${doctor.photoPath}">Нет фото</span>-->
+<!--                </td>-->
+<!--                <td th:text="${doctor.fullName}"></td>-->
+<!--                <td th:text="${doctor.specialization}"></td>-->
+<!--                <td th:text="${doctor.email}"></td>-->
+<!--                <td th:text="${doctor.phone}"></td>-->
+<!--            </tr>-->
+<!--            </tbody>-->
+<!--        </table>-->
+<!--    </section>-->
+
+<!--    <div sec:authorize="isAnonymous()">-->
+<!--        <a th:href="@{/register}" class="button">Зарегистрироваться</a>-->
+<!--    </div>-->
+<!--</main>-->
+
+<!--</body>-->
+<!--</html>-->
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
@@ -5,6 +80,38 @@
     <meta charset="UTF-8">
     <title>Главная | Поликлиника "Здоровье"</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
+    <style>
+        /* Модальное окно */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 999;
+            padding-top: 60px;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.8);
+        }
+
+        .modal-content {
+            margin: auto;
+            display: block;
+            max-width: 90%;
+            max-height: 80%;
+        }
+
+        .close {
+            position: absolute;
+            top: 20px;
+            right: 45px;
+            color: #fff;
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
 
@@ -54,10 +161,14 @@
                     <img th:if="${doctor.photoPath}"
                          th:src="@{'/uploads/' + ${doctor.photoPath}}"
                          alt="Фото врача"
-                         class="doctor-photo">
+                         class="doctor-photo"
+                         style="width: 60px; height: 60px; object-fit: cover; border-radius: 50%; cursor: pointer;"
+                         th:attr="onclick=|showModalImage('/uploads/${doctor.photoPath}')|"/>
                     <span th:unless="${doctor.photoPath}">Нет фото</span>
                 </td>
-                <td th:text="${doctor.fullName}"></td>
+                <td>
+                    <a th:href="@{/public-doctor/{email}(email=${doctor.email})}" th:text="${doctor.fullName}"></a>
+                </td>
                 <td th:text="${doctor.specialization}"></td>
                 <td th:text="${doctor.email}"></td>
                 <td th:text="${doctor.phone}"></td>
@@ -70,6 +181,25 @@
         <a th:href="@{/register}" class="button">Зарегистрироваться</a>
     </div>
 </main>
+
+<!-- Модальное окно -->
+<div id="imageModal" class="modal" onclick="closeModal()">
+    <span class="close" onclick="closeModal()">&times;</span>
+    <img class="modal-content" id="modalImage">
+</div>
+
+<script>
+    function showModalImage(src) {
+        const modal = document.getElementById("imageModal");
+        const modalImg = document.getElementById("modalImage");
+        modal.style.display = "block";
+        modalImg.src = src;
+    }
+
+    function closeModal() {
+        document.getElementById("imageModal").style.display = "none";
+    }
+</script>
 
 </body>
 </html>
