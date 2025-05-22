@@ -222,3 +222,75 @@ table th {
     position: absolute;
     left: 0;
 }
+/* Обновленные стили для правильного позиционирования футера */
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Используем min-height вместо height для лучшей адаптации */
+}
+
+main {
+    flex: 1 0 auto; /* Будет растягиваться, заполняя доступное пространство */
+    padding: 1rem;
+}
+
+footer {
+    flex-shrink: 0; /* Предотвращает сжатие футера */
+    background-color: #f2f2f2;
+    padding: 20px;
+    text-align: center;
+}
+
+/* Специфичные стили для страниц авторизации */
+.login-page, .register-page {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Занимает весь видимый экран */
+}
+
+.login-page main,
+.register-page main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Центрируем содержимое по вертикали */
+    padding: 2rem 1rem;
+}
+
+/* Контейнер для форм авторизации */
+.auth-container {
+    max-width: 500px;
+    width: 100%;
+    margin: 2rem auto; /* Вернем верхний/нижний отступ */
+    padding: 0; /* Убираем padding у контейнера */
+    background-color: transparent; /* Убираем фон у контейнера */
+    border-radius: 0; /* Убираем скругление углов */
+    box-sizing: border-box;
+}
+
+/* Формы авторизации */
+.auth-form {
+    width: 100%;
+    margin: 0;
+    padding: 2rem; /* Переносим padding сюда */
+    background-color: #f5f5f5; /* Фон только у формы */
+    border-radius: 4px; /* Скругление только у формы */
+}
+
+/* Если нужно добавить отступы вокруг формы */
+.auth-container h1 {
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    text-align: center; /* Центрируем заголовок */
+}
+
+.auth-container p {
+    margin-top: 1.5rem;
+    text-align: center;
+}
