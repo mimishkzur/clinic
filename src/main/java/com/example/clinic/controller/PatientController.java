@@ -64,7 +64,8 @@ public class PatientController {
     public String myAppointments(@RequestParam(required = false) String specialization, Model model, Principal principal) {
         String email = principal.getName();
         User user = userRepository.findByEmail(email).orElseThrow();
-        List<Appointment> myAppointments = appointmentRepository.findByUser(user);
+        // Изменено на сортировку по убыванию даты
+        List<Appointment> myAppointments = appointmentRepository.findByUserOrderByDateTimeDesc(user);
 
         List<String> specializations = myAppointments.stream()
                 .map(a -> a.getDoctor().getSpecialization())
