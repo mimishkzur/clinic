@@ -14,7 +14,7 @@
         </span>
 
         <span sec:authorize="isAuthenticated()">
-            <a th:href="@{/profile}">Профиль</a>
+            <a th:href="@{/patient/profile}">Профиль</a>
             <a th:href="@{/patient/appointments/available}">Запись</a>
             <a th:href="@{/patient/my-appointments}">Мои приёмы</a>
             <form th:action="@{/logout}" method="post" style="display:inline;">
