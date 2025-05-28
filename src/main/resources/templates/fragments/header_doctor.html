@@ -5,6 +5,9 @@
             <a th:href="@{/doctor/dashboard}">Ваш кабинет</a>
             <a th:href="@{/doctor/profile}">Ваш профиль</a>
             <a th:href="@{/doctor/appointments}">Приёмы</a>
+        </span>
+
+        <span>
             <form th:action="@{/logout}" method="post" style="display:inline;">
                 <button type="submit" class="logout-btn">Выйти</button>
             </form>

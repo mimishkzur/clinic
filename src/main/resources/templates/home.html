@@ -36,6 +36,119 @@
             font-weight: bold;
             cursor: pointer;
         }
+    /* Упрощенные стили для услуг */
+        .services-section {
+            background-color: #f8f9fa;
+            padding: 2rem;
+            border-radius: 8px;
+            margin: 2rem 0;
+        }
+
+        .services-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1rem;
+            list-style: none;
+            padding: 0;
+        }
+
+        .services-list li {
+            background: white;
+            padding: 1rem;
+            border-radius: 6px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            border-left: 3px solid #00897b;
+            transition: transform 0.2s;
+        }
+
+        .services-list li:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .section-title {
+            color: #00695c;
+            text-align: center;
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .section-title:after {
+            content: '';
+            position: absolute;
+            width: 60px;
+            height: 2px;
+            background: #00897b;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        /* Новые стили для таблицы врачей */
+        .doctors-section {
+            margin: 2rem 0;
+        }
+
+        .doctors-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin: 1rem 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .doctors-table thead {
+            background-color: #00897b;
+            color: white;
+        }
+
+        .doctors-table th {
+            padding: 1rem;
+            text-align: left;
+            font-weight: 500;
+        }
+
+        .doctors-table td {
+            padding: 0.8rem 1rem;
+            border-bottom: 1px solid #e0e0e0;
+            background-color: white;
+        }
+
+        .doctors-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .doctors-table tr:hover td {
+            background-color: #e0f2f1;
+        }
+
+        .doctor-photo {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 2px solid #b2dfdb;
+            transition: transform 0.2s;
+        }
+
+        .doctor-photo:hover {
+            transform: scale(1.05);
+        }
+
+        .no-photo {
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            line-height: 50px;
+            text-align: center;
+            background-color: #e0f2f1;
+            border-radius: 50%;
+            color: #00695c;
+            font-size: 0.8rem;
+        }
     </style>
 </head>
 <body>
@@ -46,9 +159,10 @@
     <h1>Добро пожаловать в поликлинику "Здоровье"</h1>
     <p>Мы предлагаем качественное медицинское обслуживание для всей семьи.</p>
 
-    <section class="services">
-        <h2>Наши услуги</h2>
-        <ul class="two-columns">
+    <section class="services-section">
+        <h2 class="section-title">Наши услуги</h2>
+
+        <ul class="services-list">
             <li>Терапия</li>
             <li>Хирургия</li>
             <li>Педиатрия</li>
@@ -56,28 +170,26 @@
             <li>Неврология</li>
             <li>Кардиология</li>
             <li>Офтальмология</li>
-            <li>Оториноларингология (ЛОР)</li>
+            <li>Оториноларингология</li>
             <li>Урология</li>
             <li>Гастроэнтерология</li>
-            <li>Эндокриннология</li>
+            <li>Эндокринология</li>
             <li>Дерматология</li>
             <li>Физиотерапия</li>
-            <li>Диагностика (УЗИ, ЭКГ, рентген)</li>
+            <li>Диагностика</li>
             <li>Вакцинация</li>
-            <li>Медицинские справки</li>
         </ul>
     </section>
 
-    <section>
-        <h2>Наши врачи</h2>
-        <table>
+    <section class="doctors-section">
+        <h2 class="section-title">Наши врачи</h2>
+        <table class="doctors-table">
             <thead>
             <tr>
                 <th>Фото</th>
-                <th>Имя</th>
+                <th>ФИО</th>
                 <th>Специализация</th>
-                <th>Email</th>
-                <th>Телефон</th>
+                <th>Контакты</th>
             </tr>
             </thead>
             <tbody>
@@ -87,16 +199,19 @@
                          th:src="@{'/uploads/' + ${doctor.photoPath}}"
                          alt="Фото врача"
                          class="doctor-photo"
-                         style="width: 60px; height: 60px; object-fit: cover; border-radius: 50%; cursor: pointer;"
                          th:attr="onclick=|showModalImage('/uploads/${doctor.photoPath}')|"/>
-                    <span th:unless="${doctor.photoPath}">Нет фото</span>
+                    <span class="no-photo" th:unless="${doctor.photoPath}">Нет фото</span>
                 </td>
                 <td>
-                    <a th:href="@{/public-doctor/{email}(email=${doctor.email})}" th:text="${doctor.fullName}"></a>
+                    <a th:href="@{/public-doctor/{email}(email=${doctor.email})}"
+                       th:text="${doctor.fullName}"
+                       class="doctor-link"></a>
                 </td>
                 <td th:text="${doctor.specialization}"></td>
-                <td th:text="${doctor.email}"></td>
-                <td th:text="${doctor.phone}"></td>
+                <td>
+                    <div th:text="${doctor.email}"></div>
+                    <div th:text="${doctor.phone}" style="color: #00695c; font-weight: 500;"></div>
+                </td>
             </tr>
             </tbody>
         </table>

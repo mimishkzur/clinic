@@ -93,23 +93,28 @@ public class DoctorController {
         Doctor doctor = doctorRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("Доктор не найден"));
 
-        List<Appointment> allAppointments = appointmentRepository.findByDoctor(doctor);
         LocalDateTime now = LocalDateTime.now();
+        LocalDateTime startOfToday = now.toLocalDate().atStartOfDay();
+        LocalDateTime endOfToday = now.toLocalDate().atTime(23, 59, 59);
 
-        List<Appointment> past = new ArrayList<>();
-        List<Appointment> today = new ArrayList<>();
-        List<Appointment> future = new ArrayList<>();
+        // Сегодняшние приемы - сортируем по времени (возрастание)
+        List<Appointment> today = appointmentRepository
+                .findByDoctorAndDateTimeBetweenOrderByDateTimeAsc(
+                        doctor,
+                        startOfToday,
+                        endOfToday);
 
-        for (Appointment appointment : allAppointments) {
-            LocalDateTime dateTime = appointment.getDateTime();
-            if (dateTime.toLocalDate().isBefore(now.toLocalDate())) {
-                past.add(appointment);
-            } else if (dateTime.toLocalDate().isEqual(now.toLocalDate())) {
-                today.add(appointment);
-            } else {
-                future.add(appointment);
-            }
-        }
+        // Будущие приемы - сортируем по дате (возрастание)
+        List<Appointment> future = appointmentRepository
+                .findByDoctorAndDateTimeAfterOrderByDateTimeAsc(
+                        doctor,
+                        endOfToday);
+
+        // Прошедшие приемы - сортируем по дате (убывание)
+        List<Appointment> past = appointmentRepository
+                .findByDoctorAndDateTimeBeforeOrderByDateTimeDesc(
+                        doctor,
+                        startOfToday);
 
         model.addAttribute("pastAppointments", past);
         model.addAttribute("todayAppointments", today);

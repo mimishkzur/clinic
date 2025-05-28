@@ -30,7 +30,7 @@ public class ProfileController {
         User user = userRepository.findByEmail(currentUserEmail).orElse(null);
 
         if (user != null) {
-            List<Appointment> appointments = appointmentRepository.findByUser(user);
+            List<Appointment> appointments = appointmentRepository.findByUserOrderByDateTimeDesc(user);
             model.addAttribute("user", user);
             model.addAttribute("appointments", appointments);
         }
