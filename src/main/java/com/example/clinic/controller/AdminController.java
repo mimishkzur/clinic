@@ -6,6 +6,7 @@ import com.example.clinic.model.*;
 import com.example.clinic.repository.AppointmentRepository;
 import com.example.clinic.repository.DoctorRepository;
 import com.example.clinic.repository.UserRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -162,4 +163,27 @@ public class AdminController {
         return "admin/statistics";
     }
 
+    // удаление пользователя
+    @PostMapping("/users/{email}/delete")
+    @Transactional
+    public String deleteUser(@PathVariable String email) {
+        if ("admin@ya.ru".equals(email)) {
+            return "redirect:/admin/users?error=Cannot delete main admin";
+        }
+
+        userRepository.findByEmail(email).ifPresent(user -> {
+            // 1. Отвязываем записи от пользователя
+            appointmentRepository.detachAppointmentsFromUser(email);
+
+            // 2. Удаляем врача (если есть)
+            if (user.getRole() == Role.DOCTOR) {
+                doctorRepository.deleteByEmail(email);
+            }
+
+            // 3. Удаляем пользователя
+            userRepository.delete(user);
+        });
+
+        return "redirect:/admin/users?success=User deleted successfully";
+    }
 }

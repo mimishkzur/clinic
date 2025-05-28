@@ -376,3 +376,50 @@ footer {
 .bg-teal-light {
     background-color: #e0f2f1;
 }
+
+.button.danger {
+    background-color: #d32f2f;
+}
+
+.button.danger:hover {
+    background-color: #b71c1c;
+}
+
+/* Добавьте эти стили в ваш CSS файл */
+
+/* Стили для кнопки редактирования врача */
+.doctor-edit-button {
+    display: inline-block;
+    padding: 0.4rem 0.8rem;
+    background-color: #4caf50; /* Зеленый цвет */
+    color: white;
+    border-radius: 4px;
+    text-align: center;
+    font-size: 0.9rem;
+    transition: all 0.3s;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.doctor-edit-button:hover {
+    background-color: #388e3c; /* Темно-зеленый при наведении */
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.doctor-edit-button:active {
+    transform: translateY(0);
+}
+
+/* Для выравнивания кнопки в ячейке таблицы */
+table td {
+    vertical-align: middle;
+}
+
+/* Для центрирования содержимого ячеек с кнопками */
+.action-cell {
+    text-align: center;
+    padding: 0.5rem !important;
+}

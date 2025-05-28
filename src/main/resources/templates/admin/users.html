@@ -44,6 +44,7 @@
             <th>Роль</th>
             <th>Изменить роль</th>
             <th>Редактировать врача</th>
+            <th>Удалить</th>
         </tr>
         </thead>
         <tbody>
@@ -64,11 +65,22 @@
                 </form>
             </td>
 
-            <td>
+            <td class="action-cell">
                 <a th:if="${user.role == T(com.example.clinic.model.Role).DOCTOR}"
-                   th:href="@{'/admin/doctors/' + ${user.email} + '/edit'}" class="button small">
+                   th:href="@{'/admin/doctors/' + ${user.email} + '/edit'}"
+                   class="doctor-edit-button">
                     Редактировать врача
                 </a>
+            </td>
+
+            <td>
+                <form th:action="@{'/admin/users/' + ${user.email} + '/delete'}" method="post" class="inline-form">
+                    <button type="submit" class="button small danger"
+                            th:disabled="${user.email == 'admin@ya.ru'}"
+                            onclick="return confirm('Вы уверены, что хотите удалить этого пользователя?')">
+                        Удалить
+                    </button>
+                </form>
             </td>
         </tr>
         </tbody>
