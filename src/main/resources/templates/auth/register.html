@@ -11,37 +11,42 @@
 <main class="container auth-container">
     <h1>Регистрация</h1>
 
+    <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+
     <form th:action="@{/register}" th:object="${user}" method="post" class="auth-form">
         <div class="form-group">
             <label>Email:</label>
             <input type="email" th:field="*{email}" class="form-input" required/>
+            <div th:if="${emailError}" th:text="${emailError}" class="error-message"></div>
         </div>
 
         <div class="form-group">
             <label>ФИО:</label>
             <input type="text" th:field="*{fullName}" class="form-input" required/>
+            <div th:if="${fullNameError}" th:text="${fullNameError}" class="error-message"></div>
         </div>
 
         <div class="form-group">
             <label>Телефон:</label>
             <input type="text" th:field="*{phone}" class="form-input" required/>
+            <div th:if="${phoneError}" th:text="${phoneError}" class="error-message"></div>
         </div>
 
         <div class="form-group">
             <label>Номер полиса ОМС:</label>
             <input type="text" th:field="*{omsPolicyNumber}" class="form-input" required/>
+            <div th:if="${omsError}" th:text="${omsError}" class="error-message"></div>
         </div>
 
         <div class="form-group">
             <label>Пароль:</label>
             <input type="password" th:field="*{password}" class="form-input" required/>
+            <div th:if="${passwordError}" th:text="${passwordError}" class="error-message"></div>
         </div>
 
         <button type="submit" class="button">Зарегистрироваться</button>
     </form>
     <p>Уже есть аккаунт? <a th:href="@{/login}" class="link">Войти</a></p>
-
-
 </main>
 <div th:insert="~{fragments/footer :: footer}"></div>
 </body>

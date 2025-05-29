@@ -35,18 +35,79 @@ public class RegistrationController {
 
     // обработка регистрации
     @PostMapping("/register")
-    public String registerUser(@ModelAttribute("user") User user, BindingResult result, Model model) {
+    public String registerUser(@ModelAttribute("user") User user, Model model) {
+
+        // проверка email
+        if (user.getEmail() == null || user.getEmail().isEmpty()) {
+            model.addAttribute("emailError", "Email не может быть пустым");
+            return "auth/register";
+        }
+        if (!user.getEmail().contains("@")) {
+            model.addAttribute("emailError", "Email должен содержать @");
+            return "auth/register";
+        }
         if (userRepository.findByEmail(user.getEmail()).isPresent()) {
-            result.rejectValue("email", "error.user", "Пользователь с таким email уже существует");
+            model.addAttribute("emailError", "Пользователь с таким email уже существует");
             return "auth/register";
         }
 
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setRole(Role.PATIENT);
+        // проверка ФИО
+        if (user.getFullName() == null || user.getFullName().isEmpty()) {
+            model.addAttribute("fullNameError", "ФИО не может быть пустым");
+            return "auth/register";
+        }
+        String[] nameParts = user.getFullName().split("\\s+");
+        if (nameParts.length != 3) {
+            model.addAttribute("fullNameError", "ФИО должно состоять из трех слов");
+            return "auth/register";
+        }
 
-        userRepository.save(user);
+        // проверка телефона (новое условие)
+        if (user.getPhone() == null || user.getPhone().isEmpty()) {
+            model.addAttribute("phoneError", "Телефон не может быть пустым");
+            return "auth/register";
+        }
+        // удаляем все нецифровые символы и проверяем длину
+        String cleanPhone = user.getPhone().replaceAll("[^0-9]", "");
+        if (cleanPhone.length() != 11) {
+            model.addAttribute("phoneError", "Номер телефона должен содержать 11 цифр");
+            return "auth/register";
+        }
+        // сохраняем очищенный номер
+        user.setPhone(cleanPhone);
 
-        return "redirect:/login";
+        // проверка номера полиса
+        if (user.getOmsPolicyNumber() == null || user.getOmsPolicyNumber().isEmpty()) {
+            model.addAttribute("omsError", "Номер полиса не может быть пустым");
+            return "auth/register";
+        }
+        if (!user.getOmsPolicyNumber().matches("\\d{16}")) {
+            model.addAttribute("omsError", "Номер полиса должен состоять из 16 цифр");
+            return "auth/register";
+        }
+
+        // проверка пароля
+        if (user.getPassword() == null || user.getPassword().isEmpty()) {
+            model.addAttribute("passwordError", "Пароль не может быть пустым");
+            return "auth/register";
+        }
+        if (user.getPassword().length() < 5 || user.getPassword().length() > 15) {
+            model.addAttribute("passwordError", "Пароль должен быть от 5 до 15 символов");
+            return "auth/register";
+        }
+
+        // если все проверки пройдены
+        try {
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+            user.setRole(Role.PATIENT);
+            userRepository.save(user);
+            System.out.println("Пользователь успешно сохранен: " + user.getEmail());
+            return "redirect:/login";
+        } catch (Exception e) {
+            System.err.println("Ошибка при сохранении пользователя: " + e.getMessage());
+            model.addAttribute("error", "Произошла ошибка при регистрации");
+            return "auth/register";
+        }
     }
 
     // отображение формы входа
