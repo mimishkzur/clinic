@@ -12,8 +12,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.TreeMap;
 
@@ -96,14 +99,54 @@ public class AdminController {
 
     // добавление новой записи
     @PostMapping("/appointments")
-    public String addAppointment(@ModelAttribute Appointment appointment,
-                                 @RequestParam String doctorEmail) {
-        doctorRepository.findByEmail(doctorEmail).ifPresent(doctor -> {
-            appointment.setDoctor(doctor);
-            appointment.setStatus(AppointmentStatus.AVAILABLE);
-            appointment.setUser(null);
-            appointmentRepository.save(appointment);
-        });
+    public String addAppointment(@RequestParam(name = "dateTime", required = false) String dateTimeStr,
+                                 @RequestParam String doctorEmail,
+                                 Model model) {
+
+        model.addAttribute("doctors", doctorRepository.findAll());
+        model.addAttribute("selectedDoctorEmail", doctorEmail);
+
+        if (doctorEmail != null && !doctorEmail.isEmpty()) {
+            doctorRepository.findByEmail(doctorEmail).ifPresent(doctor -> {
+                List<Appointment> appointments = appointmentRepository.findByDoctor(doctor);
+                appointments.sort((a1, a2) -> a2.getDateTime().compareTo(a1.getDateTime()));
+                model.addAttribute("appointments", appointments);
+            });
+        }
+
+        if (dateTimeStr == null || dateTimeStr.trim().isEmpty()) {
+            model.addAttribute("dateTimeError", "Дата и время обязательны для заполнения");
+            return "admin/appointments";
+        }
+
+        try {
+            LocalDateTime dateTime = LocalDateTime.parse(dateTimeStr.replace(" ", "T"));
+
+            if (dateTime.isBefore(LocalDateTime.now())) {
+                model.addAttribute("dateTimeError", "Дата и время не могут быть в прошлом");
+                return "admin/appointments";
+            }
+
+            Optional<Doctor> doctorOpt = doctorRepository.findByEmail(doctorEmail);
+            if (doctorOpt.isPresent()) {
+                Doctor doctor = doctorOpt.get();
+                if (appointmentRepository.existsByDoctorAndDateTime(doctor, dateTime)) {
+                    model.addAttribute("dateTimeError", "У врача уже есть приём в это время");
+                    return "admin/appointments";
+                }
+
+                Appointment appointment = new Appointment();
+                appointment.setDateTime(dateTime);
+                appointment.setDoctor(doctor);
+                appointment.setStatus(AppointmentStatus.AVAILABLE);
+                appointmentRepository.save(appointment);
+            }
+
+        } catch (DateTimeParseException e) {
+            model.addAttribute("dateTimeError", "Некорректный формат даты и времени");
+            return "admin/appointments";
+        }
+
         return "redirect:/admin/appointments?doctorEmail=" + doctorEmail;
     }
 

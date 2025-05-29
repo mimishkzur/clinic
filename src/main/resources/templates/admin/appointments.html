@@ -33,7 +33,8 @@
 
             <div class="form-group">
                 <label>Дата и время:</label>
-                <input type="datetime-local" th:field="*{dateTime}" class="form-input" />
+                <input type="datetime-local" name="dateTime" class="form-input" />
+                <div th:if="${dateTimeError}" th:text="${dateTimeError}" class="error-message"></div>
             </div>
 
             <button type="submit" class="button">Добавить</button>
