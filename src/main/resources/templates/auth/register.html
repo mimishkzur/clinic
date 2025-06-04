@@ -16,7 +16,7 @@
     <form th:action="@{/register}" th:object="${user}" method="post" class="auth-form">
         <div class="form-group">
             <label>Email:</label>
-            <input type="email" th:field="*{email}" class="form-input" required/>
+            <input type="text" th:field="*{email}" class="form-input" required/>
             <div th:if="${emailError}" th:text="${emailError}" class="error-message"></div>
         </div>
 

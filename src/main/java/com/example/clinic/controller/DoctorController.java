@@ -97,20 +97,17 @@ public class DoctorController {
         LocalDateTime startOfToday = now.toLocalDate().atStartOfDay();
         LocalDateTime endOfToday = now.toLocalDate().atTime(23, 59, 59);
 
-        // Сегодняшние приемы - сортируем по времени (возрастание)
         List<Appointment> today = appointmentRepository
                 .findByDoctorAndDateTimeBetweenOrderByDateTimeAsc(
                         doctor,
                         startOfToday,
                         endOfToday);
 
-        // Будущие приемы - сортируем по дате (возрастание)
         List<Appointment> future = appointmentRepository
                 .findByDoctorAndDateTimeAfterOrderByDateTimeAsc(
                         doctor,
                         endOfToday);
 
-        // Прошедшие приемы - сортируем по дате (убывание)
         List<Appointment> past = appointmentRepository
                 .findByDoctorAndDateTimeBeforeOrderByDateTimeDesc(
                         doctor,

@@ -121,9 +121,16 @@ public class AdminController {
 
         try {
             LocalDateTime dateTime = LocalDateTime.parse(dateTimeStr.replace(" ", "T"));
+            LocalDateTime now = LocalDateTime.now();
+            LocalDateTime maxAllowedDate = now.plusMonths(1);
 
             if (dateTime.isBefore(LocalDateTime.now())) {
                 model.addAttribute("dateTimeError", "Дата и время не могут быть в прошлом");
+                return "admin/appointments";
+            }
+
+            if (dateTime.isAfter(maxAllowedDate)) {
+                model.addAttribute("dateTimeError", "Дата приема не может быть больше, чем на 1 месяц от текущей даты");
                 return "admin/appointments";
             }
 
@@ -215,15 +222,12 @@ public class AdminController {
         }
 
         userRepository.findByEmail(email).ifPresent(user -> {
-            // 1. Отвязываем записи от пользователя
             appointmentRepository.detachAppointmentsFromUser(email);
 
-            // 2. Удаляем врача (если есть)
             if (user.getRole() == Role.DOCTOR) {
                 doctorRepository.deleteByEmail(email);
             }
 
-            // 3. Удаляем пользователя
             userRepository.delete(user);
         });
 
