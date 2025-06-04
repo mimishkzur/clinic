@@ -72,6 +72,12 @@ public class RegistrationController {
             model.addAttribute("phoneError", "Номер телефона должен содержать 11 цифр");
             return "auth/register";
         }
+
+        if (!cleanPhone.startsWith("7")) {
+            model.addAttribute("phoneError", "Номер телефона должен начинаться с цифры 7");
+            return "auth/register";
+        }
+
         user.setPhone(cleanPhone);
 
         // проверка номера полиса
