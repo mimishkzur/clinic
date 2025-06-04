@@ -53,7 +53,7 @@
         const statusLabels = [[${statusCounts.keySet()}]];
         const statusData = [[${statusCounts.values()}]];
 
-        // 📅 Приёмы по дням
+        // приёмы по дням
         new Chart(document.getElementById("appointmentsPerDay"), {
             type: 'bar',
             data: {
@@ -69,7 +69,7 @@
             options: { responsive: true }
         });
 
-        // 🧑‍⚕️ Загруженность врачей
+        // загруженность врачей
         new Chart(document.getElementById("appointmentsPerDoctor"), {
             type: 'bar',
             data: {
@@ -85,7 +85,7 @@
             options: { responsive: true }
         });
 
-        // 📈 Статусы приёмов
+        // статусы приёмов
         new Chart(document.getElementById("appointmentStatuses"), {
             type: 'pie',
             data: {

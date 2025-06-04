@@ -47,7 +47,6 @@
             <td th:text="${app.treatment != null ? app.treatment : '-'}"></td>
             <td th:text="${app.notes != null ? app.notes : '-'}"></td>
             <td>
-                <!-- Кнопка отмены показывается только для будущих приёмов -->
                 <form th:action="@{'/patient/appointments/cancel/' + ${app.id}}" method="post"
                       th:if="${app.status != 'COMPLETED'
                           and app.status != 'CANCELLED'

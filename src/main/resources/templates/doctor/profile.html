@@ -12,7 +12,6 @@
     <h2>Редактирование профиля</h2>
 
     <form th:action="@{/doctor/profile}" th:object="${doctor}" method="post" enctype="multipart/form-data">
-        <!-- Блок с фото профиля -->
         <div class="profile-photo-section">
             <div th:if="${doctor.photoPath != null}">
                 <img th:src="@{'/uploads/' + ${doctor.photoPath}}" alt="Фото профиля" class="profile-photo">

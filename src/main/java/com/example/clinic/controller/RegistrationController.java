@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -62,18 +61,17 @@ public class RegistrationController {
             return "auth/register";
         }
 
-        // проверка телефона (новое условие)
+        // проверка телефона
         if (user.getPhone() == null || user.getPhone().isEmpty()) {
             model.addAttribute("phoneError", "Телефон не может быть пустым");
             return "auth/register";
         }
-        // удаляем все нецифровые символы и проверяем длину
+
         String cleanPhone = user.getPhone().replaceAll("[^0-9]", "");
         if (cleanPhone.length() != 11) {
             model.addAttribute("phoneError", "Номер телефона должен содержать 11 цифр");
             return "auth/register";
         }
-        // сохраняем очищенный номер
         user.setPhone(cleanPhone);
 
         // проверка номера полиса
@@ -96,7 +94,6 @@ public class RegistrationController {
             return "auth/register";
         }
 
-        // если все проверки пройдены
         try {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
             user.setRole(Role.PATIENT);

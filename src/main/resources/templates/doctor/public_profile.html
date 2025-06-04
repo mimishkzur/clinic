@@ -12,7 +12,6 @@
     <h2 th:text="${doctor.fullName}">ФИО врача</h2>
 
     <div class="doctor-profile">
-        <!-- Блок с фото профиля -->
         <div class="profile-photo-section">
             <div th:if="${doctor.photoPath != null}">
                 <img th:src="@{'/uploads/' + ${doctor.photoPath}}"

@@ -163,7 +163,7 @@ public class AdminController {
         Doctor doctor = doctorRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("Доктор не найден"));
         model.addAttribute("doctor", doctor);
-        return "admin/edit-doctor";
+        return "admin/edit_doctor";
     }
 
     // редактирование информации о враче (сохранение изменений)

@@ -6,7 +6,6 @@
     <title>Главная | Поликлиника "Здоровье"</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
     <style>
-        /* Модальное окно */
         .modal {
             display: none;
             position: fixed;
@@ -36,7 +35,7 @@
             font-weight: bold;
             cursor: pointer;
         }
-    /* Упрощенные стили для услуг */
+
         .services-section {
             background-color: #f8f9fa;
             padding: 2rem;
@@ -85,7 +84,6 @@
             transform: translateX(-50%);
         }
 
-        /* Новые стили для таблицы врачей */
         .doctors-section {
             margin: 2rem 0;
         }
@@ -222,7 +220,6 @@
     </div>
 </main>
 
-<!-- Модальное окно -->
 <div id="imageModal" class="modal" onclick="closeModal()">
     <span class="close" onclick="closeModal()">&times;</span>
     <img class="modal-content" id="modalImage">

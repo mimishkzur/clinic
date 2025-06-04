@@ -17,7 +17,6 @@
             <li th:each="app : ${todayAppointments}">
                 <span th:text="${#temporals.format(app.dateTime, 'HH:mm')}"></span>
                 <span th:text="${app.user != null ? app.user.fullName : 'Не назначен'}"></span>
-                <!-- Показываем кнопку редактирования только если есть пациент -->
                 <a th:if="${app.user != null}"
                    th:href="@{/doctor/appointments/{id}/edit(id=${app.id})}"
                    class="button small">Редактировать</a>
@@ -31,7 +30,6 @@
             <li th:each="app : ${futureAppointments}">
                 <span th:text="${#temporals.format(app.dateTime, 'dd.MM.yyyy HH:mm')}"></span>
                 <span th:text="${app.user != null ? app.user.fullName : 'Свободно'}"></span>
-                <!-- Для будущих можно тоже добавить редактирование, если нужно -->
             </li>
         </ul>
     </section>
@@ -43,7 +41,6 @@
                 <span th:text="${#temporals.format(app.dateTime, 'dd.MM.yyyy HH:mm')}"></span>
                 <span th:text="${app.user != null ? app.user.fullName : 'Не назначен'}"></span>
                 <div th:if="${app.diagnosis}">Диагноз: <span th:text="${app.diagnosis}"></span></div>
-                <!-- Показываем кнопку редактирования только если есть пациент -->
                 <a th:if="${app.user != null}"
                    th:href="@{/doctor/appointments/{id}/edit(id=${app.id})}"
                    class="button small">Редактировать</a>
